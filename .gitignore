@@ -14,8 +14,8 @@
 # Do NOT ignore VHDL, Verilog, block diagrams or EDIF files.
 !*.vhd
 !*.v
-!*.bd
-!*.edif
+# !*.bd
+# !*.edif
 ###########
 ## IP files
 #.xci: synthesis and implemented not possible - you need to return back to the previous version to generate output products
@@ -23,32 +23,32 @@
 #*.xci(www.spiritconsortium.org)
 !*.xci
 #*.dcp(checkpoint files)
-!*.dcp
-!*.vds
-!*.pb
+# !*.dcp
+# !*.vds
+# !*.pb
 # All bd comments and layout coordinates are stored within .ui
-!*.ui
-!*.ooc
+# !*.ui
+# !*.ooc
 ###################
 ## System Generator
-!*.mdl
-!*.slx
-!*.bxml
+# !*.mdl
+# !*.slx
+# !*.bxml
 ############################
 ## Simulation logic analyzer
-!*.wcfg
+# !*.wcfg
 !*.coe
 ######
 ## MIG
-!*.prj
+# !*.prj
 !*.mem
 ################
 ## Project files
 # XPR  +  *.XML ? XPR (Files are merged into a single XPR file for 2014.1 version)
 # Do NOT ignore *.xpr files
-!*.xpr
+# !*.xpr
 # Include *.xml files for 2013.4 or earlier version
-!*.xml
+# !*.xml
 ###################
 ## Constraint files
 # Do NOT ignore *.xdc files
@@ -58,19 +58,19 @@
 !*.tcl
 ##################
 ## Journal - files
-!*.jou
+# !*.jou
 ##########
 ## Reports
-!*.rpt
+# !*.rpt
 !*.txt
-!*.vdi
+# !*.vdi
 ##########
 ## C-files
 !*.c
 !*.h
 !*.elf
-!*.bmm
-!*.xmp
+# !*.bmm
+# !*.xmp
 ##########
 ## Python files
 !*.py
