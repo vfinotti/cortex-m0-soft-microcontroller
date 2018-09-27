@@ -108,7 +108,7 @@ architecture behavioral of cm0_softmc_top is
   signal none       : std_logic_vector(1 downto 0);
   signal led_value  : std_logic;
   signal reset_rom  : std_logic;
-  signal clk_50mhz  : std_logic;
+  signal clk_10mhz  : std_logic;
 
 begin
 
@@ -133,13 +133,13 @@ begin
 
   inst_detector : detectorbus
     port map (
-      clock    => clk_50mhz,
+      clock    => clk_10mhz,
       databus  => hrdata,
       detector => led_value);
 
   -- inst_syncreset : syncreset
   --   port map(
-  --     clock      => clk_50mhz,
+  --     clock      => clk_10mhz,
   --     resetpulse => syncresetpulse);
 
   gc_single_reset_gen_1 : entity work.gc_single_reset_gen
@@ -147,7 +147,7 @@ begin
       g_out_reg_depth => 5,             -- delay for 5 clk cycles
       g_rst_in_num    => 1)             -- just 1 input
     port map (
-      clk_i             => clk_50mhz,
+      clk_i             => clk_10mhz,
       rst_signals_n_a_i => "1",
       rst_n_o           => rst_n);
 
@@ -164,20 +164,20 @@ begin
       g_clkin_period   => 5.000,        -- 200 MHz
       g_divclk_divide  => 1,
       g_clkbout_mult_f => 5,
-      g_clk0_divide_f  => 20,           -- 50 MHz
-      g_clk1_divide    => 20,           -- 50 MHz
-      g_clk2_divide    => 20)           -- 50 MHz
+      g_clk0_divide_f  => 100,           -- 10 MHz
+      g_clk1_divide    => 100,           -- 10 MHz
+      g_clk2_divide    => 100)           -- 10 MHz
     port map (
       rst_i    => '0',
       clk_i    => clk_200mhz,
-      clk0_o   => clk_50mhz,
+      clk0_o   => clk_10mhz,
       clk1_o   => open,
       clk2_o   => open,
       locked_o => led0);
 
   inst_memory : rom_memory_blinking_led
     port map (
-      clka      => clk_50mhz,
+      clka      => clk_10mhz,
       rsta      => reset_rom,
       ena       => htrans(1),
       wea       => hwrite(0 downto 0),
@@ -189,7 +189,7 @@ begin
   cortex_m0_1 : entity work.cortex_m0_wrapper
     port map (
       -- clock and resets ------------------
-      hclk_i        => clk_50mhz,               -- clock
+      hclk_i        => clk_10mhz,               -- clock
       hreset_n_i    => rst_n,                   -- asynchronous reset
       -- ahb-lite master port --------------
       haddr_o       => haddr(31 downto 0),      -- ahb transaction address
