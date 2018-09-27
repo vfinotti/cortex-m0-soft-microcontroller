@@ -321,7 +321,7 @@ begin  -- architecture rtl
   --   -- POWER MANAGEMENT ------------------
   --   SLEEPING    => sleeping_o);                             -- Core and NVIC sleeping
 
-  Processor : entity work.CORTEXM0INTEGRATION
+  Processor : CORTEXM0INTEGRATION
     port map (
       -- CLOCK AND RESETS ------------------
       FCLK          => FCLK,
