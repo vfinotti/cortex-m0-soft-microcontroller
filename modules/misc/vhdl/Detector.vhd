@@ -37,10 +37,10 @@ end detectorbus;
 
 architecture behavioral of detectorbus is
 
-  signal trigger  : std_logic;
-  signal outputff : std_logic;
-  signal inputff  : std_logic;
-  signal rst_ff   : std_logic;
+  signal trigger  : std_logic := '0';
+  signal outputff : std_logic := '0';
+  signal inputff  : std_logic := '0';
+  signal rst_ff   : std_logic := '0';
 
 begin
 
