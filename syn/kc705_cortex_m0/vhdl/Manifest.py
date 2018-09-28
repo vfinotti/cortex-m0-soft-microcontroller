@@ -9,6 +9,6 @@ syn_project = "cm0_softmc_top"
 syn_tool = "vivado"
 
 modules = {
-  "local" : [ "../../../top/kc705/vhdl" ],
+  "local" : [ "../../../top/kc705_cortex_m0/vhdl" ],
 }
 
