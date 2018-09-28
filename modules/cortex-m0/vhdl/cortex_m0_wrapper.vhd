@@ -178,15 +178,15 @@ architecture rtl of cortex_m0_wrapper is
       -- input  wire        HRESETn,
       -- input  wire        SWCLKTCK,
       -- input  wire        nTRST,
-      FCLK        : in  std_logic;
-      SCLK        : in  std_logic;
-      HCLK        : in  std_logic;                       -- Clock
-      DCLK        : in  std_logic;
-      PORESETn    : in  std_logic;
-      DBGRESETn   : in  std_logic;
-      HRESETn     : in  std_logic;                       -- Asynchronous reset
-      SWCLKTCK    : in  std_logic;
-      nTRST       : in  std_logic;
+      FCLK        : in  std_logic;                       -- Free running clock
+      SCLK        : in  std_logic;                       -- System clock
+      HCLK        : in  std_logic;                       -- AHB clock(from PMU)
+      DCLK        : in  std_logic;                       -- Debug system clock (from PMU)
+      PORESETn    : in  std_logic;                       -- Power on reset
+      DBGRESETn   : in  std_logic;                       -- Debug reset
+      HRESETn     : in  std_logic;                       -- AHB and System reset
+      SWCLKTCK    : in  std_logic;                       --
+      nTRST       : in  std_logic;                       --
       -- AHB-LITE MASTER PORT --------------
       -- output wire [31:0] HADDR,                       -- AHB transaction address
       -- output wire [ 2:0] HBURST,                      -- AHB burst: tied to single
