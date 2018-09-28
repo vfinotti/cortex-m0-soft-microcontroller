@@ -112,11 +112,11 @@ architecture rtl of cortex_m0_wrapper is
   signal SCLK          : std_logic                      := '0';
   signal HCLK          : std_logic                      := '0';
   signal DCLK          : std_logic                      := '0';
-  signal PORESETn      : std_logic                      := '0';
-  signal DBGRESETn     : std_logic                      := '0';
+  signal PORESETn      : std_logic                      := '1';
+  signal DBGRESETn     : std_logic                      := '1';
   signal HRESETn       : std_logic                      := '0';
   signal SWCLKTCK      : std_logic                      := '0';
-  signal nTRST         : std_logic                      := '0';
+  signal nTRST         : std_logic                      := '1';
   signal HADDR         : std_logic_vector (31 downto 0) := (others => '0');
   signal HBURST        : std_logic_vector (2 downto 0)  := (others => '0');
   signal HMASTLOCK     : std_logic                      := '0';
