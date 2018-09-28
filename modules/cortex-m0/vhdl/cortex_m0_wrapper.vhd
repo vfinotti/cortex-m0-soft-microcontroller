@@ -326,25 +326,25 @@ begin  -- architecture rtl
       -- CLOCK AND RESETS ------------------
       FCLK          => FCLK,
       SCLK          => SCLK,
-      HCLK          => hclk_i,
+      HCLK          => HCLK,
       DCLK          => DCLK,
       PORESETn      => PORESETn,
       DBGRESETn     => DBGRESETn,
-      HRESETn       => hreset_n_i,
+      HRESETn       => HRESETn,
       SWCLKTCK      => SWCLKTCK,
       nTRST         => nTRST,
       -- AHB-LITE MASTER PORT --------------
-      HADDR         => haddr_o,
-      HBURST        => hburst_o,
-      HMASTLOCK     => hmastlock_o,
-      HPROT         => hprot_o,
-      HSIZE         => hsize_o,
-      HTRANS        => htrans_o,
-      HWDATA        => hwdata_o,
-      HWRITE        => hwrite_o,
-      HRDATA        => hrdata_i,
-      HREADY        => hready_i,
-      HRESP         => hresp_i,
+      HADDR         => HADDR,
+      HBURST        => HBURST,
+      HMASTLOCK     => HMASTLOCK,
+      HPROT         => HPROT,
+      HSIZE         => HSIZE,
+      HTRANS        => HTRANS,
+      HWDATA        => HWDATA,
+      HWRITE        => HWRITE,
+      HRDATA        => HRDATA,
+      HREADY        => HREADY,
+      HRESP         => HRESP,
       HMASTER       => HMASTER,
       -- CODE SEQUENTIALITY AND SPECULATION
       CODENSEQ      => CODENSEQ,
@@ -362,19 +362,19 @@ begin  -- architecture rtl
       EDBGRQ        => EDBGRQ,
       HALTED        => HALTED,
       -- MISCELLANEOUS ---------------------
-      NMI           => nmi_i,
-      IRQ           => irq_i,
-      TXEV          => txev_o,
-      RXEV          => rxev_i,
-      LOCKUP        => lockup_o,
-      SYSRESETREQ   => sysresetreq_o,
+      NMI           => NMI,
+      IRQ           => IRQ,
+      TXEV          => TXEV,
+      RXEV          => RXEV,
+      LOCKUP        => LOCKUP,
+      SYSRESETREQ   => SYSRESETREQ,
       STCALIB       => STCALIB,
       STCLKEN       => STCLKEN,
       IRQLATENCY    => IRQLATENCY,
       ECOREVNUM     => ECOREVNUM,
       -- POWER MANAGEMENT ------------------
       GATEHCLK      => GATEHCLK,
-      SLEEPING      => sleeping_o,
+      SLEEPING      => SLEEPING,
       SLEEPDEEP     => SLEEPDEEP,
       WAKEUP        => WAKEUP,
       WICSENSE      => WICSENSE,
@@ -387,5 +387,37 @@ begin  -- architecture rtl
       -- SCAN IO ---------------------------
       SE            => SE,
       RSTBYPASS     => RSTBYPASS);
+
+  FCLK          <= hclk_i;
+  SCLK          <= hclk_i;
+  HCLK          <= hclk_i;
+  DCLK          <= hclk_i;
+  SWCLKTCK      <= hclk_i;
+  PORESETn      <= hreset_n_i;
+  DBGRESETn     <= hreset_n_i;
+  HRESETn       <= hreset_n_i;
+  nTRST         <= hreset_n_i;
+
+  haddr_o       <= HADDR;
+  hburst_o      <= HBURST;
+  hmastlock_o   <= HMASTLOCK;
+  hprot_o       <= HPROT;
+  hsize_o       <= HSIZE;
+  htrans_o      <= HTRANS;
+  hwdata_o      <= HWDATA;
+  hwrite_o      <= HWRITE;
+  HRDATA        <= hrdata_i;
+  HREADY        <= hready_i;
+  HRESP         <= hresp_i;
+
+  NMI           <= nmi_i;
+  IRQ           <= irq_i;
+  txev_o        <= TXEV;
+  RXEV          <= rxev_i;
+  lockup_o      <= LOCKUP;
+  sysresetreq_o <= SYSRESETREQ;
+
+  sleeping_o    <= SLEEPING;
+
 
 end architecture rtl;
