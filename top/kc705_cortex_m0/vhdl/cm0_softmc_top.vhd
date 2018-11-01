@@ -76,19 +76,19 @@ architecture behavioral of cm0_softmc_top is
 
   component sys_pll is
     generic (
-      g_clkin_period : real;
-      g_divclk_divide : integer;
+      g_clkin_period   : real;
+      g_divclk_divide  : integer;
       g_clkbout_mult_f : integer;
-      g_ref_jitter : real;
-      g_clk0_divide_f : integer;
-      g_clk1_divide : integer;
-      g_clk2_divide : integer);
+      g_ref_jitter     : real;
+      g_clk0_divide_f  : integer;
+      g_clk1_divide    : integer;
+      g_clk2_divide    : integer);
     port (
-      rst_i : in std_logic := '0';
-      clk_i : in std_logic := '0';
-      clk0_o : out std_logic;
-      clk1_o : out std_logic;
-      clk2_o : out std_logic;
+      rst_i    : in  std_logic := '0';
+      clk_i    : in  std_logic := '0';
+      clk0_o   : out std_logic;
+      clk1_o   : out std_logic;
+      clk2_o   : out std_logic;
       locked_o : out std_logic);
   end component sys_pll;
 
@@ -110,6 +110,9 @@ architecture behavioral of cm0_softmc_top is
   signal reset_rom  : std_logic;
   signal clk_10mhz  : std_logic;
 
+  -- constant MY_BOARD   : string  := "CHANGE THIS";
+  constant VENDOR   : string  := "VENDOR_XILINX";
+
 begin
 
   led3      <= led_value;
@@ -122,13 +125,13 @@ begin
   cpm_ibufgds_clk_gen : IBUFGDS
     generic map (
       DIFF_TERM    => false,            -- Differential Termination
-      IBUF_LOW_PWR => true,             -- Low power (TRUE) vs. performance (FALSE) setting for referenced I/O standards
+      IBUF_LOW_PWR => true,  -- Low power (TRUE) vs. performance (FALSE) setting for referenced I/O standards
       IOSTANDARD   => "DIFF_SSTL15"
       )
     port map (
       O  => clk_200mhz,                 -- Clock buffer output
-      I  => sys_clk_p_i,                -- Diff_p clock buffer input (connect directly to top-level port)
-      IB => sys_clk_n_i                 -- Diff_n clock buffer input (connect directly to top-level port)
+      I  => sys_clk_p_i,  -- Diff_p clock buffer input (connect directly to top-level port)
+      IB => sys_clk_n_i  -- Diff_n clock buffer input (connect directly to top-level port)
       );
 
   inst_detector : detectorbus
@@ -164,9 +167,9 @@ begin
       g_clkin_period   => 5.000,        -- 200 MHz
       g_divclk_divide  => 1,
       g_clkbout_mult_f => 5,
-      g_clk0_divide_f  => 100,           -- 10 MHz
-      g_clk1_divide    => 100,           -- 10 MHz
-      g_clk2_divide    => 100)           -- 10 MHz
+      g_clk0_divide_f  => 100,          -- 10 MHz
+      g_clk1_divide    => 100,          -- 10 MHz
+      g_clk2_divide    => 100)          -- 10 MHz
     port map (
       rst_i    => '0',
       clk_i    => clk_200mhz,
@@ -175,43 +178,58 @@ begin
       clk2_o   => open,
       locked_o => led0);
 
-  inst_memory : rom_memory_blinking_led
+  -- inst_memory : rom_memory_blinking_led
+  --   port map (
+  --     clka      => clk_10mhz,
+  --     rsta      => reset_rom,
+  --     ena       => htrans(1),
+  --     wea       => hwrite(0 downto 0),
+  --     addra     => haddr(10 downto 2),
+  --     dina      => hwdata(31 downto 0),
+  --     douta     => hrdata(31 downto 0),
+  --     rsta_busy => open);
+
+  generic_spram_1: entity work.generic_spram
+    generic map (
+      g_data_width               => 32,
+      g_size                     => 512,
+      -- Path should be relative to memory_loader_pkc.vhd directory
+      g_init_file                => "./../../../../modules/memory/vhdl/BlinkingLed.mem")
     port map (
-      clka      => clk_10mhz,
-      rsta      => reset_rom,
-      ena       => htrans(1),
-      wea       => hwrite(0 downto 0),
-      addra     => haddr(10 downto 2),
-      dina      => hwdata(31 downto 0),
-      douta     => hrdata(31 downto 0),
-      rsta_busy => open);
+      rst_n_i => reset_rom,
+      clk_i   => clk_10mhz,
+      bwe_i   => (others => '0'),
+      we_i    => hwrite(0),
+      a_i     => haddr(10 downto 2),
+      d_i     => hwdata(31 downto 0),
+      q_o     => hrdata(31 downto 0));
 
   cortex_m0_1 : entity work.cortex_m0_wrapper
     port map (
       -- clock and resets ------------------
-      hclk_i        => clk_10mhz,               -- clock
-      hreset_n_i    => rst_n,                   -- asynchronous reset
+      hclk_i        => clk_10mhz,       -- clock
+      hreset_n_i    => rst_n,           -- asynchronous reset
       -- ahb-lite master port --------------
-      haddr_o       => haddr(31 downto 0),      -- ahb transaction address
-      hburst_o      => hburst(2 downto 0),      -- ahb burst: tied to single
-      hmastlock_o   => dummy(0),                -- ahb locked transfer (always zero)
-      hprot_o       => hprot(3 downto 0),       -- ahb protection: priv; data or inst
-      hsize_o       => hsize(2 downto 0),       -- ahb size: byte, half-word or word
-      htrans_o      => htrans(1 downto 0),      -- ahb transfer: non-sequential only
-      hwdata_o      => hwdata(31 downto 0),     -- ahb write-data
-      hwrite_o      => hwrite(0),               -- ahb write control
-      hrdata_i      => hrdata(31 downto 0),     -- ahb read-data
-      hready_i      => '1',                     -- ahb stall signal
-      hresp_i       => '0',                     -- ahb error response
+      haddr_o       => haddr(31 downto 0),  -- ahb transaction address
+      hburst_o      => hburst(2 downto 0),  -- ahb burst: tied to single
+      hmastlock_o   => dummy(0),        -- ahb locked transfer (always zero)
+      hprot_o       => hprot(3 downto 0),  -- ahb protection: priv; data or inst
+      hsize_o       => hsize(2 downto 0),  -- ahb size: byte, half-word or word
+      htrans_o      => htrans(1 downto 0),  -- ahb transfer: non-sequential only
+      hwdata_o      => hwdata(31 downto 0),  -- ahb write-data
+      hwrite_o      => hwrite(0),       -- ahb write control
+      hrdata_i      => hrdata(31 downto 0),  -- ahb read-data
+      hready_i      => '1',             -- ahb stall signal
+      hresp_i       => '0',             -- ahb error response
       -- miscellaneous ---------------------
-      nmi_i         => '0',                     -- non-maskable interrupt input
-      irq_i         => (others => '0'),         -- interrupt request inputs
-      txev_o        => dummy(1),                -- event output (sev executed)
-      rxev_i        => '0',                     -- event input
-      lockup_o      => led2,                    -- core is locked-up
-      sysresetreq_o => dummy(2),                -- system reset request
+      nmi_i         => '0',             -- non-maskable interrupt input
+      irq_i         => (others => '0'),    -- interrupt request inputs
+      txev_o        => dummy(1),        -- event output (sev executed)
+      rxev_i        => '0',             -- event input
+      lockup_o      => led2,            -- core is locked-up
+      sysresetreq_o => dummy(2),        -- system reset request
       -- power management ------------------
-      sleeping_o    => led1);                   -- core and nvic sleeping
+      sleeping_o    => led1);           -- core and nvic sleeping
 
 
 end behavioral;
