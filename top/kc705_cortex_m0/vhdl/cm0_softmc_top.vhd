@@ -205,29 +205,30 @@ begin
   cortex_m0_1 : entity work.cortex_m0_wrapper
     port map (
       -- clock and resets ------------------
-      hclk_i        => clk_10mhz,       -- clock
-      hreset_n_i    => rst_n,           -- asynchronous reset
+      hclk_i                => clk_10mhz,            -- clock
+      hreset_n_i            => rst_n,                -- asynchronous reset
       -- ahb-lite master port --------------
-      haddr_o       => haddr(31 downto 0),  -- ahb transaction address
-      hburst_o      => hburst(2 downto 0),  -- ahb burst: tied to single
-      hmastlock_o   => dummy(0),        -- ahb locked transfer (always zero)
-      hprot_o       => hprot(3 downto 0),  -- ahb protection: priv; data or inst
-      hsize_o       => hsize(2 downto 0),  -- ahb size: byte, half-word or word
-      htrans_o      => htrans(1 downto 0),  -- ahb transfer: non-sequential only
-      hwdata_o      => hwdata(31 downto 0),  -- ahb write-data
-      hwrite_o      => hwrite(0),       -- ahb write control
-      hrdata_i      => hrdata(31 downto 0),  -- ahb read-data
-      hready_i      => '1',             -- ahb stall signal
-      hresp_i       => '0',             -- ahb error response
+      haddr_o(10 downto 0)  => haddr(10 downto 0),   -- ahb transaction address
+      haddr_o(31 downto 11) => haddr(31 downto 11),  -- ahb transaction address
+      hburst_o              => hburst(2 downto 0),   -- ahb burst: tied to single
+      hmastlock_o           => dummy(0),             -- ahb locked transfer (always zero)
+      hprot_o               => hprot(3 downto 0),    -- ahb protection: priv; data or inst
+      hsize_o               => hsize(2 downto 0),    -- ahb size: byte, half-word or word
+      htrans_o              => htrans(1 downto 0),   -- ahb transfer: non-sequential only
+      hwdata_o              => hwdata(31 downto 0),  -- ahb write-data
+      hwrite_o              => hwrite(0),            -- ahb write control
+      hrdata_i              => hrdata(31 downto 0),  -- ahb read-data
+      hready_i              => '1', --hready,               -- ahb stall signal
+      hresp_i               => '0', --hresp,                -- ahb error response
       -- miscellaneous ---------------------
-      nmi_i         => '0',             -- non-maskable interrupt input
-      irq_i         => (others => '0'),    -- interrupt request inputs
-      txev_o        => dummy(1),        -- event output (sev executed)
-      rxev_i        => '0',             -- event input
-      lockup_o      => led2,            -- core is locked-up
-      sysresetreq_o => dummy(2),        -- system reset request
+      nmi_i                 => '0',                  -- non-maskable interrupt input
+      irq_i                 => (others => '0'),      -- interrupt request inputs
+      txev_o                => dummy(1),             -- event output (sev executed)
+      rxev_i                => '0',                  -- event input
+      lockup_o              => led2,                 -- core is locked-up
+      sysresetreq_o         => dummy(2),             -- system reset request
       -- power management ------------------
-      sleeping_o    => led1);           -- core and nvic sleeping
+      sleeping_o            => led1);                -- core and nvic sleeping
 
 
 end behavioral;
