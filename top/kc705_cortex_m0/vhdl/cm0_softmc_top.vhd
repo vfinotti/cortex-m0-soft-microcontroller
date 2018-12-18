@@ -188,16 +188,21 @@ begin
   --     rsta_busy => open);
 
   generic_spram_1: entity work.generic_spram
+  rom: entity work.generic_spram
     generic map (
       g_data_width               => 32,
       g_size                     => 512,
       -- Path should be relative to memory_loader_pkc.vhd directory
-      g_init_file                => "./../../../../modules/memory/vhdl/BlinkingLed.mem")
+      g_init_file                => "./../../../../modules/memory/vhdl/memory.mem")
+--      g_init_file                => "./../../../../modules/memory/vhdl/BlinkingLed.mem")
     port map (
-      rst_n_i => reset_rom,
+      rst_n_i => rst_n,
       clk_i   => clk_10mhz,
       bwe_i   => (others => '0'),
-      we_i    => hwrite(0),
+      we_i    => '0',
+      -- a_i     => sramaddr(8 downto 0),
+      -- d_i     => sramwdata(31 downto 0),
+      -- q_o     => sramrdata(31 downto 0));
       a_i     => haddr(10 downto 2),
       d_i     => hwdata(31 downto 0),
       q_o     => hrdata(31 downto 0));
