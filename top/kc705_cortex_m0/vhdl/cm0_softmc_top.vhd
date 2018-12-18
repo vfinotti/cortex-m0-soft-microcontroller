@@ -110,8 +110,6 @@ architecture behavioral of cm0_softmc_top is
   signal reset_rom  : std_logic;
   signal clk_10mhz  : std_logic;
 
-  -- constant MY_BOARD   : string  := "CHANGE THIS";
-  constant VENDOR   : string  := "VENDOR_XILINX";
 
 begin
 
