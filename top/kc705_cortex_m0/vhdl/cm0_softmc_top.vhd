@@ -59,17 +59,6 @@ end cm0_softmc_top;
 
 architecture behavioral of cm0_softmc_top is
 
-  component rom_memory_blinking_led
-    port (
-      clka      : in  std_logic;
-      rsta      : in  std_logic;
-      ena       : in  std_logic;
-      wea       : in  std_logic_vector(0 downto 0);
-      addra     : in  std_logic_vector(8 downto 0);
-      dina      : in  std_logic_vector(31 downto 0);
-      douta     : out std_logic_vector(31 downto 0);
-      rsta_busy : out std_logic);
-  end component;
 
   component detectorbus is
     port (
