@@ -4,6 +4,9 @@ set_property IOSTANDARD LVDS  [get_ports sys_clk_n_i]
 set_property PACKAGE_PIN AD12 [get_ports sys_clk_p_i]
 set_property IOSTANDARD LVDS  [get_ports sys_clk_p_i]
 
+create_clock -period 5.000 -name  sys_clk_p_i [get_ports  sys_clk_p_i]
+set_clock_groups -asynchronous -group  sys_clk_p_i
+
 # GPIO LEDs
 set_property PACKAGE_PIN AB8     [get_ports {led0}]
 set_property IOSTANDARD LVCMOS15 [get_ports {led0}]
