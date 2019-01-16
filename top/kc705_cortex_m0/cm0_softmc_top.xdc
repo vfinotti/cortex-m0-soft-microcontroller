@@ -41,8 +41,8 @@ set_property IOSTANDARD LVCMOS25 [get_ports {led7}]
 
 # GPIO PUSHBUTTON SW
 ## east
-#set_property PACKAGE_PIN AG5      [get_ports {push_buttons_i[0]}]
-#set_property IOSTANDARD LVCMOS15  [get_ports {push_buttons_i[0]}]
+set_property PACKAGE_PIN AG5      [get_ports {push_button0_i}]
+set_property IOSTANDARD LVCMOS15  [get_ports {push_button0_i}]
 ## center
 #set_property PACKAGE_PIN G12      [get_ports {push_buttons_i[1]}]
 #set_property IOSTANDARD LVCMOS25  [get_ports {push_buttons_i[1]}]
