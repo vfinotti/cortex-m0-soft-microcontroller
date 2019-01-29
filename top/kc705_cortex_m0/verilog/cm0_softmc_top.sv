@@ -174,7 +174,6 @@ module cm0_softmc_top (
      .locked_o         ( led0       ) );
 
  ahb3lite_sram1rw #(
-   .MEM_SIZE          ( 0                ),   // Memory in Bytes
    .MEM_DEPTH         ( 512              ),   // Memory depth
    .HADDR_SIZE        ( 32               ),
    .HDATA_SIZE        ( 32               ),
