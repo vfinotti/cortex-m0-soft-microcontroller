@@ -311,29 +311,32 @@ module cm0_softmc_top (
 
    cortex_m0_wrapper cortex_m0 (
      // clock and resets
-     .hclk_i                ( clk_10mhz      ),      // clock
-     .hreset_n_i            ( rst_n          ),      // asynchronous reset
+     .hclk_i                ( clk_10mhz         ),      // clock
+     .hreset_n_i            ( rst_n             ),      // asynchronous reset
      // ahb-lite master port
-     .haddr_o               ( mst_haddr  [0] ),      // ahb transaction address
-     .hburst_o              ( mst_hburst [0] ),      // ahb burst: tied to single
-     .hmastlock_o           (                ),      // ahb locked transfer (always zero)
-     .hprot_o               ( mst_hprot  [0] ),      // ahb protection: priv; data or inst
-     .hsize_o               ( mst_hsize  [0] ),      // ahb size: byte, half-word or word
-     .htrans_o              ( mst_htrans [0] ),      // ahb transfer: non-sequential only
-     .hwdata_o              ( mst_hwdata [0] ),      // ahb write-data
-     .hwrite_o              ( mst_hwrite [0] ),      // ahb write control
-     .hrdata_i              ( mst_hrdata [0] ),      // ahb read-data
-     .hready_i              ( 1'b1           ),      // mst_hready_0,               // ahb stall signal
-     .hresp_i               ( 1'b0           ),      // mst_hresp_0,                // ahb error response
+     .haddr_o               ( mst_haddr     [0] ),      // ahb transaction address
+     .hburst_o              ( mst_hburst    [0] ),      // ahb burst: tied to single
+     .hmastlock_o           (                   ),      // ahb locked transfer (always zero)
+     .hprot_o               ( mst_hprot     [0] ),      // ahb protection: priv; data or inst
+     .hsize_o               ( mst_hsize     [0] ),      // ahb size: byte, half-word or word
+     .htrans_o              ( mst_htrans    [0] ),      // ahb transfer: non-sequential only
+     .hwdata_o              ( mst_hwdata    [0] ),      // ahb write-data
+     .hwrite_o              ( mst_hwrite    [0] ),      // ahb write control
+     .hrdata_i              ( mst_hrdata    [0] ),      // ahb read-data
+     .hready_i              ( 1'b1              ),      // mst_hready_0,               // ahb stall signal
+     .hresp_i               ( 1'b0              ),      // mst_hresp_0,                // ahb error response
      // miscellaneous
-     .nmi_i                 ( 1'b0           ),      // non-maskable interrupt input
-     .irq_i                 ( {32{1'b0}}     ),      // interrupt request inputs
-     .txev_o                (                ),      // event output (sev executed)
-     .rxev_i                ( 1'b0           ),      // event input
-     .lockup_o              ( led2           ),      // core is locked-up
-     .sysresetreq_o         (                ),      // system reset request
+     .nmi_i                 ( 1'b0              ),      // non-maskable interrupt input
+     .irq_i                 ( {32{1'b0}}        ),      // interrupt request inputs
+     .txev_o                (                   ),      // event output (sev executed)
+     .rxev_i                ( 1'b0              ),      // event input
+     .lockup_o              ( led2              ),      // core is locked-up
+     .sysresetreq_o         (                   ),      // system reset request
      // power management
-     .sleeping_o            ( led1           ) );    // core and nvic sleeping
+     .sleeping_o            ( led1              ) );    // core and nvic sleeping
+
+   // assign mst_hready [0] = 1'b1; // Cortex M0 has no hreadyout
+
 
     ila_0 ila_cortex (
       .clk    ( clk_100mhz     ),
