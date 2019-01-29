@@ -14,7 +14,6 @@ modules = {
   "local" : [ "../../../modules/cortex-m0/vhdl",
               "../../../modules/clk/vhdl",
               "../../../modules/memory/vhdl",
-              "../../../modules/ahb3lite/vhdl",
               "../../../ip_cores/general-cores",
               "../../../modules/misc/vhdl"],
 
