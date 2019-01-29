@@ -67,6 +67,7 @@ module cm0_softmc_top (
 
    // Common signals
    logic                           clk_10mhz;
+   logic                           clk_100mhz;
    logic                           clk_200mhz;
    logic                           rst_n;
    logic                           rst;
@@ -157,17 +158,17 @@ module cm0_softmc_top (
 
 
    sys_pll #(
-     .g_clkin_period   ( 5.000 ),          // 200 MHz
-     .g_divclk_divide  ( 1     ),
-     .g_clkbout_mult_f ( 5     ),
-     .g_clk0_divide_f  ( 100   ),          // 10 MHz
-     .g_clk1_divide    ( 100   ),          // 10 MHz
-     .g_clk2_divide    ( 100   ) )         // 10 MHz
+     .g_clkin_period   ( 5.000      ),          // 200 MHz
+     .g_divclk_divide  ( 1          ),
+     .g_clkbout_mult_f ( 5          ),
+     .g_clk0_divide_f  ( 100        ),          // 10 MHz
+     .g_clk1_divide    ( 10         ),          // 100 MHz
+     .g_clk2_divide    ( 100        ) )         // 10 MHz
    sys_pll (
      .rst_i            ( 1'b0       ),
      .clk_i            ( clk_200mhz ),
      .clk0_o           ( clk_10mhz  ),
-     .clk1_o           (            ),
+     .clk1_o           ( clk_100mhz ),
      .clk2_o           (            ),
      .locked_o         ( led0       ) );
 
