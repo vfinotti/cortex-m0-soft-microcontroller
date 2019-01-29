@@ -12,6 +12,7 @@ files = [
 
 modules = {
   "local" : [ "../../../modules/cortex-m0/vhdl",
+              "../../../modules/cortex-m0/verilog",
               "../../../modules/clk/vhdl",
               "../../../modules/memory/vhdl",
               "../../../ip_cores/general-cores",
