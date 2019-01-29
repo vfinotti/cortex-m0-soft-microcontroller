@@ -142,10 +142,11 @@ module cm0_softmc_top (
      .IB           ( sys_clk_n_i ) );     // Diff_n buffer input (connect directly to top-level port)
 
 
-   detectorbus inst_detector (
-     .clock    ( clk_10mhz      ),
-     .databus  ( mst_hrdata [0] ),
-     .detector ( led_value      ) );
+   detection_fsm inst_detector (
+     .clk_i      ( clk_10mhz      ),
+     .rst_i      ( rst            ),
+     .data_i     ( mst_hrdata [0] ),
+     .detected_o ( led_value      ) );
 
 
    gc_single_reset_gen  #(
