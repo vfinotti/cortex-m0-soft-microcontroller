@@ -196,7 +196,7 @@ module cm0_softmc_top (
   .HREADY             ( slv_hready    [0]),
   .HRESP              ( slv_hresp     [0]) );
 
-   assign slv_hready [0] = rst_n;
+   // assign slv_hready [0] = rst_n;
 
 
  // ahb3lite_sram1rw #(
@@ -246,7 +246,7 @@ module cm0_softmc_top (
     .mst_HTRANS    ( mst_htrans    ),
     .mst_HMASTLOCK ( mst_hmastlock ),
     .mst_HREADYOUT ( mst_hreadyout ),
-    .mst_HREADY    ( mst_hready    ),
+    .mst_HREADY    ( mst_hreadyout ),
     .mst_HRESP     ( mst_hresp     ),
     // Slave Ports
     .slv_addr_mask ( slv_addr_mask ),
@@ -261,8 +261,8 @@ module cm0_softmc_top (
     .slv_HPROT     ( slv_hprot     ),
     .slv_HTRANS    ( slv_htrans    ),
     .slv_HMASTLOCK ( slv_hmastlock ),
-    .slv_HREADYOUT (               ), // HREADYOUT to slave-decoder; generates HREADY to all connected slaves
-    .slv_HREADY    ( slv_hready    ), // combinatorial HREADY from all connected slaves
+    .slv_HREADYOUT ( slv_hready    ), // HREADYOUT to slave-decoder; generates HREADY to all connected slaves
+    .slv_HREADY    ( slv_hreadyout ), // combinatorial HREADY from all connected slaves
     .slv_HRESP     ( slv_hresp     )
     );
 
