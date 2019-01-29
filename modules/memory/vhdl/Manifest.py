@@ -1,5 +1,4 @@
 files = [
-    "rom_memory_blinking_led.xci",
-    "rom_memory_blinking_led.vho",
+    "rl_ram_r1w1_generic.vhd",
 ]
 
