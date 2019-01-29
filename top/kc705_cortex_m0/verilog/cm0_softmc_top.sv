@@ -335,5 +335,14 @@ module cm0_softmc_top (
      // power management
      .sleeping_o            ( led1           ) );    // core and nvic sleeping
 
+    ila_0 ila_cortex (
+      .clk    ( clk_100mhz     ),
+      .probe0 ( rst_n          ),
+      .probe1 ( mst_haddr  [0] ),
+      .probe2 ( mst_hwdata [0] ),
+      .probe3 ( clk_10mhz      ),
+      .probe4 ( mst_hrdata [0] ),
+      .probe5 ( led3           ) );
+
 
 endmodule // cm0_softmc_top
