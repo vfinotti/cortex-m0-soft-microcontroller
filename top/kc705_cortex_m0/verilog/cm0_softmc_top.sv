@@ -337,15 +337,4 @@ module cm0_softmc_top (
 
    // assign mst_hready [0] = 1'b1; // Cortex M0 has no hreadyout
 
-
-    ila_0 ila_cortex (
-      .clk    ( clk_100mhz     ),
-      .probe0 ( rst_n          ),
-      .probe1 ( mst_haddr  [0] ),
-      .probe2 ( mst_hwdata [0] ),
-      .probe3 ( clk_10mhz      ),
-      .probe4 ( mst_hrdata [0] ),
-      .probe5 ( led3           ) );
-
-
 endmodule // cm0_softmc_top
