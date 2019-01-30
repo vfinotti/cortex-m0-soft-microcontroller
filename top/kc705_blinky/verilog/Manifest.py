@@ -1,6 +1,6 @@
 files = [
-    "cm0_softmc_top.sv",
-    "../cm0_softmc_top.xdc",
+    "cm0_blinky_top.sv",
+    "../cm0_blinky_top.xdc",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect_master_port.sv",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect_slave_port.sv",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect.sv",
