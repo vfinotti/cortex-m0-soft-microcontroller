@@ -267,48 +267,6 @@ module cm0_blinky_top (
     );
 
 
-  // ahb3lite_interconnect_wrapper #(
-  //   .g_haddr_size    ( c_haddr_width ),
-  //   .g_hdata_size    ( 32            ),
-  //   .g_masters_num   ( c_masters_num ),             // number of AHB Masters
-  //   .g_slaves_num    ( c_slaves_num  ) )            // number of AHB Slaves
-  // interconnect (
-  //   // Common signals
-  //   .hreset_n_i      ( rst_n         ),
-  //   .hclk_i          ( clk_10mhz     ),
-  //   // Master Ports
-  //   .mst_priority_i  ( mst_priority  ),           // highest priority, even if it's the only master
-  //   .mst_hsel_i      ( mst_hsel      ),
-  //   .mst_haddr_i     ( mst_haddr     ),
-  //   .mst_hwdata_i    ( mst_hwdata    ),
-  //   .mst_hrdata_o    ( mst_hrdata    ),
-  //   .mst_hwrite_i    ( mst_hwrite    ),
-  //   .mst_hsize_i     ( mst_hsize     ),
-  //   .mst_hburst_i    ( mst_hburst    ),
-  //   .mst_hprot_i     ( mst_hprot     ),
-  //   .mst_htrans_i    ( mst_htrans    ),
-  //   .mst_hmastlock_i ( mst_hmastlock ),
-  //   .mst_hreadyout_o ( mst_hreadyout ),
-  //   .mst_hready_i    ( mst_hready    ),
-  //   .mst_hresp_o     ( mst_hresp     ),
-  //   // Slave Ports
-  //   .slv_addr_mask_i ( slv_addr_mask ),           // up to addr 0x1FFF_FFFF
-  //   .slv_addr_base_i ( slv_addr_base ),
-  //   .slv_hsel_o      ( slv_hsel      ),
-  //   .slv_haddr_o     ( slv_haddr     ),
-  //   .slv_hwdata_o    ( slv_hwdata    ),
-  //   .slv_hrdata_i    ( slv_hrdata    ),
-  //   .slv_hwrite_o    ( slv_hwrite    ),
-  //   .slv_hsize_o     ( slv_hsize     ),
-  //   .slv_hburst_o    ( slv_hburst    ),
-  //   .slv_hprot_o     ( slv_hprot     ),
-  //   .slv_htrans_o    ( slv_htrans    ),
-  //   .slv_hmastlock_o ( slv_hmastlock ),
-  //   .slv_hreadyout_o ( slv_hreadyout ),           // HREADYOUT to slave-decoder; generates HREADY to all connected slaves
-  //   .slv_hready_i    ( slv_hready    ),           // combinatorial HREADY from all connected slaves
-  //   .slv_hresp_i     ( slv_hresp     ));
-
-
    cortex_m0_wrapper cortex_m0 (
      // clock and resets
      .hclk_i                ( clk_10mhz         ),      // clock
