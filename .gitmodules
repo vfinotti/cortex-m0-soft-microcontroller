@@ -9,7 +9,7 @@
 	url = git@github.com:vfinotti/ahb3lite_memory.git
 [submodule "ip_cores/roa_logic/ahb3lite_pkg"]
 	path = ip_cores/roa_logic/ahb3lite_pkg
-	url = git@github.com:vfinotti/ahb3lite_pkg.git
+	url = git@github.com:RoaLogic/ahb3lite_pkg.git
 [submodule "ip_cores/roa_logic/memory"]
 	path = ip_cores/roa_logic/memory
 	url = git@github.com:vfinotti/memory.git
