@@ -35,7 +35,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-module cm0_blinky_top (
+module cm0_busy_wait_top (
   output led0,
   output led1,
   output led2,
