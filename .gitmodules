@@ -1,6 +1,6 @@
-[submodule "ip_cores/PoC"]
-	path = ip_cores/PoC
-	url = https://github.com/VLSI-EDA/PoC.git
+[submodule "ip_cores/general-cores"]
+	path = ip_cores/general-cores
+	url = https://github.com/lnls-dig/general-cores.git
 [submodule "ip_cores/roa_logic/ahb3lite_interconnect"]
 	path = ip_cores/roa_logic/ahb3lite_interconnect
 	url = git@github.com:vfinotti/ahb3lite_interconnect.git
