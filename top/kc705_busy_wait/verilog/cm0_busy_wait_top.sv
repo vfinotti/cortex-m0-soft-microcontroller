@@ -226,8 +226,8 @@ module cm0_busy_wait_top (
 
  ahb3lite_cordic #(
    .g_iterations ( 32               ),
-   .HADDR_SIZE   ( c_haddr_width    ),
-   .HDATA_SIZE   ( c_hdata_width    ) )
+   .g_haddr_size ( c_haddr_width    ),
+   .g_hdata_size ( c_hdata_width    ) )
  cordic (
    .hreset_n_i   ( rst_n            ),
    .hclk_i       ( clk_10mhz        ),
@@ -242,7 +242,7 @@ module cm0_busy_wait_top (
    .htrans_i     ( slv_htrans    [1]),
    .hreadyout_o  ( slv_hreadyout [1]),
    .hready_i     ( slv_hready    [1]),
-   .hresp_i      ( slv_hresp     [1]) );
+   .hresp_o      ( slv_hresp     [1]) );
 
 
   ahb3lite_interconnect #(
