@@ -1,6 +1,6 @@
 files = [
     "cm0_busy_wait_top.sv",
-    "../cm0_blinkybusy_wait_top.xdc",
+    "../cm0_busy_wait_top.xdc",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect_master_port.sv",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect_slave_port.sv",
     "../../../ip_cores/roa_logic/ahb3lite_interconnect/rtl/verilog/ahb3lite_interconnect.sv",
@@ -16,6 +16,7 @@ modules = {
               "../../../modules/clk/vhdl",
               "../../../modules/memory/vhdl",
               "../../../ip_cores/general-cores",
-              "../../../modules/misc/vhdl"],
+              "../../../modules/misc/vhdl",
+              "../../../modules/cordic/vhdl"],
 
 }
