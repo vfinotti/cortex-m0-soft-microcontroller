@@ -289,24 +289,6 @@ module cm0_busy_wait_top (
     );
 
 
-   cordic_sequential #(
-     .SIZE               ( ),
-     .ITERATIONS         ( ),
-     .RESET_ACTIVE_LEVEL ( ) )
-   cordic_0 (
-     .Clock              ( ),
-     .Reset              ( ),
-     .Data_valid         ( ),
-     .Busy               ( ),
-     .Result_valid       ( ),
-     .Mode               ( ),
-     .X                  ( ),
-     .Y                  ( ),
-     .Z                  ( ),
-     .X                  ( ),
-     .Y                  ( ),
-     .Z                  ( ) );
-
    cortex_m0_wrapper cortex_m0 (
      // clock and resets
      .hclk_i                ( clk_10mhz         ),      // clock
