@@ -54,7 +54,7 @@ module cm0_busy_wait_top (
    //
 
    localparam c_masters_num = 1;
-   localparam c_slaves_num  = 1;
+   localparam c_slaves_num  = 2;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
@@ -119,8 +119,10 @@ module cm0_busy_wait_top (
    assign mst_hsel [0] = 1'b1;
    assign slv_addr_mask [0] = 32'hE000_0000;
    assign slv_addr_base [0] = 32'h0000_0000;
-   assign slv_addr_mask [1] = 32'hE000_0000;
-   assign slv_addr_base [1] = 32'h2000_0000;
+   // assign slv_addr_mask [1] = 32'hE000_0000;
+   // assign slv_addr_base [1] = 32'h2000_0000;
+   assign slv_addr_mask [1] = 32'hFFFF_FFF8;
+   assign slv_addr_base [1] = 32'h4000_0000;
 
    assign led3 = led_value;
    assign led4 = rst_n;
@@ -222,6 +224,26 @@ module cm0_busy_wait_top (
  //  .HREADY             ( slv_hready    [1] ),
  //  .HRESP              ( slv_hresp     [1] ) );
 
+ ahb3lite_cordic #(
+   .g_iterations ( 32               ),
+   .HADDR_SIZE   ( c_haddr_width    ),
+   .HDATA_SIZE   ( c_hdata_width    ) )
+ cordic (
+   .hreset_n_i   ( rst_n            ),
+   .hclk_i       ( clk_10mhz        ),
+   .hsel_i       ( slv_hsel      [1]),
+   .haddr_i      ( slv_haddr     [1]),
+   .hwdata_i     ( slv_hwdata    [1]),
+   .hrdata_o     ( slv_hrdata    [1]),
+   .hwrite_i     ( slv_hwrite    [1]),
+   .hsize_i      ( slv_hsize     [1]),
+   .hburst_i     ( slv_hburst    [1]),
+   .hprot_i      ( slv_hprot     [1]),
+   .htrans_i     ( slv_htrans    [1]),
+   .hreadyout_o  ( slv_hreadyout [1]),
+   .hready_i     ( slv_hready    [1]),
+   .hresp_i      ( slv_hresp     [1]) );
+
 
   ahb3lite_interconnect #(
     .HADDR_SIZE    ( c_haddr_width ),
@@ -266,6 +288,24 @@ module cm0_busy_wait_top (
     .slv_HRESP     ( slv_hresp     )
     );
 
+
+   cordic_sequential #(
+     .SIZE               ( ),
+     .ITERATIONS         ( ),
+     .RESET_ACTIVE_LEVEL ( ) )
+   cordic_0 (
+     .Clock              ( ),
+     .Reset              ( ),
+     .Data_valid         ( ),
+     .Busy               ( ),
+     .Result_valid       ( ),
+     .Mode               ( ),
+     .X                  ( ),
+     .Y                  ( ),
+     .Z                  ( ),
+     .X                  ( ),
+     .Y                  ( ),
+     .Z                  ( ) );
 
    cortex_m0_wrapper cortex_m0 (
      // clock and resets
