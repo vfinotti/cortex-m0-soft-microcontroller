@@ -40,6 +40,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library work;
+use work.cordic.all;
+
 entity ahb3lite_cordic is
 
   generic (
@@ -85,11 +88,11 @@ architecture rtl of ahb3lite_cordic is
   signal rst                 : std_ulogic;
 
   -- Address phase sampling registers
-  signal r_hsel   : std_ulogic;
+  signal r_hsel   : std_logic;
   signal r_haddr  : std_logic_vector (g_haddr_size-1 downto 0);
-  signal r_htrans : std_ulogic_vector(1 downto 0);
-  signal r_hwrite : std_ulogic;
-  signal r_hsize  : std_ulogic_vector(2 downto 0);
+  signal r_htrans : std_logic_vector(1 downto 0);
+  signal r_hwrite : std_logic;
+  signal r_hsize  : std_logic_vector(2 downto 0);
 
   -- Data and control registers
   signal x, y, z                      : signed(g_hdata_size-1 downto 0);  -- 1 sign bit + 1 integer bit + g_hdata_size-2 fraction bits
@@ -106,9 +109,10 @@ architecture rtl of ahb3lite_cordic is
   -- addr 6 : z result
   -- addr 7 : control register "done"
   -- signal control_regs : t_control_regs;
+  signal cordic_mode : cordic_mode := cordic_rotate;
 
   signal result_valid : std_ulogic;
-  signal budy         : std_ulogic;
+  signal busy         : std_ulogic;
 
 
 
@@ -126,12 +130,12 @@ begin  -- architecture rtl
       r_hwrite <= '0';
       r_hsize  <= (others => '0');
     elsif rising_edge(hclk_i) then
-      if (hready_i) then
-        r_hsel   <= hsel;
-        r_haddr  <= haddr;
-        r_htrans <= htrans;
-        r_hwrite <= hwrite;
-        r_hsize  <= hsize;
+      if (hready_i = '1') then
+        r_hsel   <= hsel_i;
+        r_haddr  <= haddr_i;
+        r_htrans <= htrans_i;
+        r_hwrite <= hwrite_i;
+        r_hsize  <= hsize_i;
       end if;
     end if;
   end process address_phase;
@@ -139,34 +143,30 @@ begin  -- architecture rtl
 
   -- Data phase data transfer
   data_phase : process (hclk_i, hreset_n_i) is
-    variable addr : integer (7 downto 0);
+    variable addr : integer range 0 to 7;
   begin
     -- only last 3 bits are used for addressing
-    addr := to_integer(hwaddr_i(2 downto 0));
+    addr := to_integer(unsigned(haddr_i(2 downto 0)));
     if hreset_n_i = '0' then
-      x           <= (others => '0');
-      y           <= (others => '0');
-      z           <= (others => '0');
-      x_result    <= (others => '0');
-      y_result    <= (others => '0');
-      z_result    <= (others => '0');
-      control_in  <= (others => '0');
-      control_out <= (others => '0');
-      -- control_regs <= (others => (others => '0'));
+      x             <= (others => '0');
+      y             <= (others => '0');
+      z             <= (others => '0');
+      control_start <= (others => '0');
+    -- control_regs <= (others => (others => '0'));
     elsif rising_edge(hclk_i) then
-      if (r_hsel and r_hwrite) then
+      if ((r_hsel and r_hwrite) = '1') then
         case addr is
           when 0 =>
-            x <= hwdata_i;
+            x <= signed(hwdata_i);
           when 1 =>
-            y <= hwdata_i;
+            y <= signed(hwdata_i);
           when 2 =>
-            x <= hwdata_i;
+            z <= signed(hwdata_i);
           when 3 =>
-            control_in <= hwdata_i;
+            control_start <= hwdata_i;
           when others => null;
         end case;
-        -- control_regs(addr) <= hwdata_i;
+      -- control_regs(addr) <= hwdata_i;
       end if;
     end if;
   end process data_phase;
@@ -174,40 +174,42 @@ begin  -- architecture rtl
 
   -- Tranfer response
   hreadyout_o <= '1';
+  hresp_o     <= '0';
 
   -- Read data
-  -- purpose: output the register equivalent to the address on hwaddr
+  -- purpose: output the register equivalent to the address on haddr
   -- type   : combinational
   -- inputs : all
   -- outputs:
-  process (all) is
+  process (haddr_i) is
     -- only last 3 bits are used for addressing
-    addr := to_integer(hwaddr_i(2 downto 0));
+    variable addr : integer range 0 to 7;
   begin  -- process
+    addr := to_integer(unsigned(haddr_i(2 downto 0)));
     case addr is
       when 0 =>
-        hrdata_o <= x;
+        hrdata_o <= std_logic_vector(x);
       when 1 =>
-        hrdata_o <= y;
+        hrdata_o <= std_logic_vector(y);
       when 2 =>
-        hrdata_o <= x;
+        hrdata_o <= std_logic_vector(z);
       when 3 =>
-        hrdata_o <= control_in;
+        hrdata_o <= std_logic_vector(control_start);
       when 4 =>
-        hrdata_o <= x_result;
+        hrdata_o <= std_logic_vector(x_result);
       when 5 =>
-        hrdata_o <= y_result;
+        hrdata_o <= std_logic_vector(y_result);
       when 6 =>
-        hrdata_o <= x_result;
+        hrdata_o <= std_logic_vector(z_result);
       when 7 =>
-        hrdata_o <= control_out;
+        hrdata_o <= std_logic_vector(control_done);
       when others => null;
     end case;
   end process;
 
 
 -- Sequential implementation
-  cs: cordic_sequential
+  cs: entity work.cordic_sequential
     generic map (
       SIZE       => g_hdata_size,
       ITERATIONS => g_iterations
@@ -218,7 +220,7 @@ begin  -- architecture rtl
       Data_valid   => control_start(0),
       Busy         => busy,
       Result_valid => result_valid,
-      Mode         => cordic_rotate,
+      Mode         => cordic_mode,
       X => x,
       Y => y,
       Z => z,
