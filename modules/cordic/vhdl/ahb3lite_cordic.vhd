@@ -86,20 +86,20 @@ end entity ahb3lite_cordic;
 
 architecture rtl of ahb3lite_cordic is
 
-  signal rst                 : std_ulogic;
+  signal rst                          : std_ulogic;
 
   -- Address phase sampling registers
-  signal r_hsel   : std_logic;
-  signal r_haddr  : std_logic_vector (g_haddr_size-1 downto 0);
-  signal r_htrans : std_logic_vector(1 downto 0);
-  signal r_hwrite : std_logic;
-  signal r_hsize  : std_logic_vector(2 downto 0);
+  signal r_hsel                       : std_logic                                  := '0';
+  signal r_haddr                      : std_logic_vector (g_haddr_size-1 downto 0) := (others => '0');
+  signal r_htrans                     : std_logic_vector(1 downto 0)               := (others => '0');
+  signal r_hwrite                     : std_logic                                  := '0';
+  signal r_hsize                      : std_logic_vector(2 downto 0)               := (others => '0');
 
   -- Data and control registers
-  signal x, y, z                      : signed(g_hdata_size-1 downto 0);  -- 1 sign bit + 1 integer bit + g_hdata_size-2 fraction bits
-  signal x_result, y_result, z_result : signed(g_hdata_size-1 downto 0);
-  signal control_start                : std_logic_vector(g_hdata_size-1 downto 0);
-  signal control_done                 : std_logic_vector(g_hdata_size-1 downto 0);
+  signal x, y, z                      : signed(g_hdata_size-1 downto 0)            := (others => '0');  -- 1 sign bit + 1 integer bit + g_hdata_size-2 fraction bits
+  signal x_result, y_result, z_result : signed(g_hdata_size-1 downto 0)            := (others => '0');
+  signal control_start                : std_logic_vector(g_hdata_size-1 downto 0)  := (others => '0');
+  signal control_done                 : std_logic_vector(g_hdata_size-1 downto 0)  := (others => '0');
   -- type t_control_regs is array (7 downto 0) of std_logic_vector(g_hdata_size-1 downto 0);
   -- addr 0 : x input
   -- addr 1 : y input
@@ -179,6 +179,7 @@ begin  -- architecture rtl
   -- Tranfer response
   hreadyout_o <= '1';
   hresp_o     <= '0';
+
 
   -- Read data
   -- purpose: output the register equivalent to the address on haddr
