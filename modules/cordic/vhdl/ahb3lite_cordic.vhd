@@ -112,8 +112,10 @@ architecture rtl of ahb3lite_cordic is
   -- signal control_regs : t_control_regs;
   signal cordic_mode_selection        : cordic_mode;
 
-  signal result_valid : std_ulogic;
-  signal busy         : std_ulogic;
+  signal result_valid                 : std_ulogic                                 := '0';
+  signal busy                         : std_ulogic                                 := '0';
+  signal data_valid                   : std_ulogic                                 := '0';
+  signal detection_stages : std_logic_vector(1 downto 0);
 
 
 
@@ -210,6 +212,14 @@ begin  -- architecture rtl
     end case;
   end process;
 
+  edge_detector_1: entity work.edge_detector
+    generic map (
+      g_edge_type => "rising")
+    port map (
+      clk_i           => hclk_i,
+      rst_i           => rst,
+      signal_i        => control_start(0),
+      edge_detected_o => data_valid);
 
 
   -- Necessary due to the custom type signal "cordic_mode" created for
@@ -217,6 +227,7 @@ begin  -- architecture rtl
   cordic_mode_selection <= cordic_rotate when g_mode = "rotation" else
                            cordic_vector when g_mode = "vectoring" else
                            cordic_rotate;
+
 
 -- Sequential implementation
   cs: entity work.cordic_sequential
@@ -227,7 +238,7 @@ begin  -- architecture rtl
     port map (
       Clock => hclk_i,
       Reset => rst,
-      Data_valid   => control_start(0),
+      Data_valid   => data_valid,
       Busy         => busy,
       Result_valid => result_valid,
       Mode         => cordic_mode_selection,
