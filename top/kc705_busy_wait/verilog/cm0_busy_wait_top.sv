@@ -121,7 +121,7 @@ module cm0_busy_wait_top (
    assign slv_addr_base [0] = 32'h0000_0000;
    // assign slv_addr_mask [1] = 32'hE000_0000;
    // assign slv_addr_base [1] = 32'h2000_0000;
-   assign slv_addr_mask [1] = 32'hFFFF_FFF8;
+   assign slv_addr_mask [1] = 32'hFFFF_FFE0;
    assign slv_addr_base [1] = 32'h4000_0000;
 
    assign led3 = led_value;
