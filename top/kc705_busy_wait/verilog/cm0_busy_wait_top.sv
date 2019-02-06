@@ -181,7 +181,7 @@ module cm0_busy_wait_top (
    .HDATA_SIZE        ( 32               ),
    .TECHNOLOGY        ( "GENERIC"        ),
    .REGISTERED_OUTPUT ( "NO"             ),
-   .INIT_FILE         ( "/home/vfinotti/clones/cortex-m0-soft-microcontroller/modules/memory/memory_1M_syn.mem" ) )
+   .INIT_FILE         ( "/home/vfinotti/clones/cortex-m0-soft-microcontroller/modules/memory/memory_busy_wait.mem" ) )
  rom (
   .HRESETn            ( rst_n            ),
   .HCLK               ( clk_10mhz        ),
