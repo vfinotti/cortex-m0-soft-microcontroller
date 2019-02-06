@@ -15,4 +15,4 @@
 	url = git@github.com:vfinotti/memory.git
 [submodule "ip_cores/vhdl-extras"]
 	path = ip_cores/vhdl-extras
-	url = https://github.com/kevinpt/vhdl-extras.git
+	url = git@github.com:vfinotti/vhdl-extras.git
