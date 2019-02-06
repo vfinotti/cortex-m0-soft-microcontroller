@@ -144,10 +144,11 @@ begin  -- architecture rtl
 
   -- Data phase data transfer
   data_phase : process (hclk_i, hreset_n_i) is
-    variable addr : integer range 0 to 7;
+    variable addr : integer range 0 to 28; -- offset in memory, considering
+                                           -- each reg have 4 bytes
   begin
-    -- only last 3 bits are used for addressing
-    addr := to_integer(unsigned(haddr_i(2 downto 0)));
+    -- only last 5 bits are used for addressing
+    addr := to_integer(unsigned(r_haddr(4 downto 0)));
     if hreset_n_i = '0' then
       x             <= (others => '0');
       y             <= (others => '0');
@@ -159,11 +160,11 @@ begin  -- architecture rtl
         case addr is
           when 0 =>
             x <= signed(hwdata_i);
-          when 1 =>
+          when 4 =>
             y <= signed(hwdata_i);
-          when 2 =>
+          when 8 =>
             z <= signed(hwdata_i);
-          when 3 =>
+          when 12 =>
             control_start <= hwdata_i;
           when others => null;
         end case;
@@ -183,26 +184,27 @@ begin  -- architecture rtl
   -- inputs : all
   -- outputs:
   process (haddr_i) is
-    -- only last 3 bits are used for addressing
-    variable addr : integer range 0 to 7;
+    variable addr : integer range 0 to 28; -- offset in memory, considering
+                                           -- each reg have 4 bytes
   begin  -- process
-    addr := to_integer(unsigned(haddr_i(2 downto 0)));
+    -- only last 5 bits are used for addressing
+    addr := to_integer(unsigned(r_haddr(4 downto 0)));
     case addr is
       when 0 =>
         hrdata_o <= std_logic_vector(x);
-      when 1 =>
-        hrdata_o <= std_logic_vector(y);
-      when 2 =>
-        hrdata_o <= std_logic_vector(z);
-      when 3 =>
-        hrdata_o <= std_logic_vector(control_start);
       when 4 =>
+        hrdata_o <= std_logic_vector(y);
+      when 8 =>
+        hrdata_o <= std_logic_vector(z);
+      when 12 =>
+        hrdata_o <= std_logic_vector(control_start);
+      when 16 =>
         hrdata_o <= std_logic_vector(x_result);
-      when 5 =>
+      when 20 =>
         hrdata_o <= std_logic_vector(y_result);
-      when 6 =>
+      when 24 =>
         hrdata_o <= std_logic_vector(z_result);
-      when 7 =>
+      when 28 =>
         hrdata_o <= std_logic_vector(control_done);
       when others => null;
     end case;
