@@ -9,7 +9,11 @@
 -- description:
 --
 --   Detects if a specific pattern is seen on the data input. If so,
---   permanently asserts an output, only resetting it if the block is reset.
+--   permanently asserts an output, only resetting it if the block is reset. As
+--   a mesure to avoid toggling when not intended (this happpens because the
+--   pattern appears more than once due to the pipelined nature of the
+--   microcontroller), the next toggle must wait at least 10 clock cycles after
+--   the previous.
 --
 -------------------------------------------------------------------------------
 -- Copyright (c) 2018 Vitor Finotti
@@ -43,16 +47,23 @@ begin  -- architecture rtl
   -- outputs: detected_o
 
   detection : process (clk_i)
+    variable cycles_after_toggle : integer range 0 to 10;
   begin
     if rising_edge(clk_i) then          -- rising clock edge
       if rst_i = '1' then               -- synchronous reset (active high)
         present_state <= state_off;
+        cycles_after_toggle := 0;
       else
+        if cycles_after_toggle < 10 then
+          cycles_after_toggle := cycles_after_toggle + 1;
+        end if;
+
         case present_state is
 
           when state_off =>
-            if data_i = x"f0f0f0f0" then
+            if data_i = x"f0f0f0f0" and cycles_after_toggle = 10 then
               present_state <= state_on;
+              cycles_after_toggle := 0;
               detected_o    <= '1';
             else
               present_state <= state_off;
@@ -60,8 +71,9 @@ begin  -- architecture rtl
             end if;
 
           when state_on =>
-            if data_i = x"f0f0f0f0" then
+            if data_i = x"f0f0f0f0" and cycles_after_toggle = 10 then
               present_state <= state_off;
+              cycles_after_toggle := 0;
               detected_o    <= '0';
             else
               present_state <= state_on;
@@ -70,6 +82,7 @@ begin  -- architecture rtl
 
           when others =>
             detected_o    <= '0';
+            cycles_after_toggle := 0;
             present_state <= state_off;
         end case;
       end if;
