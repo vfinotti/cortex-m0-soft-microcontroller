@@ -241,7 +241,7 @@ module cm0_busy_wait_top (
    .hprot_i      ( slv_hprot     [1]),
    .htrans_i     ( slv_htrans    [1]),
    .hreadyout_o  ( slv_hreadyout [1]),
-   .hready_i     ( slv_hready    [1]),
+   .hready_i     ( slv_hreadyout [1]),
    .hresp_o      ( slv_hresp     [1]) );
 
 
@@ -303,7 +303,7 @@ module cm0_busy_wait_top (
      .hwdata_o              ( mst_hwdata    [0] ),      // ahb write-data
      .hwrite_o              ( mst_hwrite    [0] ),      // ahb write control
      .hrdata_i              ( mst_hrdata    [0] ),      // ahb read-data
-     .hready_i              ( 1'b1              ),      // mst_hready_0,               // ahb stall signal
+     .hready_i              ( mst_hreadyout [0] ),      // mst_hready_0,               // ahb stall signal
      .hresp_i               ( 1'b0              ),      // mst_hresp_0,                // ahb error response
      // miscellaneous
      .nmi_i                 ( 1'b0              ),      // non-maskable interrupt input
