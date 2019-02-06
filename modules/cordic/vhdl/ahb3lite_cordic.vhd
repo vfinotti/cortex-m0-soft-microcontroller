@@ -49,7 +49,8 @@ entity ahb3lite_cordic is
     g_iterations         : positive   := 32;   -- Number of iterarions for CORDIC algorithm
     g_reset_active_level : std_ulogic := '1';  -- Asynch. reset control level
     g_haddr_size         : positive   := 32;   -- Width of operands
-    g_hdata_size         : positive   := 32);
+    g_hdata_size         : positive   := 32;
+    g_mode               : string     := "rotation");
 
   port (
     hclk_i      : in  std_logic;
@@ -109,7 +110,7 @@ architecture rtl of ahb3lite_cordic is
   -- addr 6 : z result
   -- addr 7 : control register "done"
   -- signal control_regs : t_control_regs;
-  signal cordic_mode : cordic_mode := cordic_rotate;
+  signal cordic_mode_selection        : cordic_mode;
 
   signal result_valid : std_ulogic;
   signal busy         : std_ulogic;
@@ -208,6 +209,13 @@ begin  -- architecture rtl
   end process;
 
 
+
+  -- Necessary due to the custom type signal "cordic_mode" created for
+  -- setting cordic_sequential core.
+  cordic_mode_selection <= cordic_rotate when g_mode = "rotation" else
+                           cordic_vector when g_mode = "vectoring" else
+                           cordic_rotate;
+
 -- Sequential implementation
   cs: entity work.cordic_sequential
     generic map (
@@ -220,7 +228,7 @@ begin  -- architecture rtl
       Data_valid   => control_start(0),
       Busy         => busy,
       Result_valid => result_valid,
-      Mode         => cordic_mode,
+      Mode         => cordic_mode_selection,
       X => x,
       Y => y,
       Z => z,
