@@ -54,7 +54,7 @@ module cm0_busy_wait_top (
    //
 
    localparam c_masters_num = 1;
-   localparam c_slaves_num  = 1;
+   localparam c_slaves_num  = 5;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
@@ -119,8 +119,16 @@ module cm0_busy_wait_top (
    assign mst_hsel [0] = 1'b1;
    assign slv_addr_mask [0] = 32'hE000_0000;
    assign slv_addr_base [0] = 32'h0000_0000;
-   assign slv_addr_mask [1] = 32'hE000_0000;
-   assign slv_addr_base [1] = 32'h2000_0000;
+   // assign slv_addr_mask [1] = 32'hE000_0000;
+   // assign slv_addr_base [1] = 32'h2000_0000;
+   assign slv_addr_mask [1] = 32'hFFFF_FFE0;
+   assign slv_addr_base [1] = 32'h4000_0000;
+   assign slv_addr_mask [2] = 32'hFFFF_FFE0;
+   assign slv_addr_base [2] = 32'h4000_0100;
+   assign slv_addr_mask [3] = 32'hFFFF_FFE0;
+   assign slv_addr_base [3] = 32'h4000_0200;
+   assign slv_addr_mask [4] = 32'hFFFF_FFE0;
+   assign slv_addr_base [4] = 32'h4000_0300;
 
    assign led3 = led_value;
    assign led4 = rst_n;
@@ -179,7 +187,7 @@ module cm0_busy_wait_top (
    .HDATA_SIZE        ( 32               ),
    .TECHNOLOGY        ( "GENERIC"        ),
    .REGISTERED_OUTPUT ( "NO"             ),
-   .INIT_FILE         ( "/home/vfinotti/clones/cortex-m0-soft-microcontroller/modules/memory/memory_1M_syn.mem" ) )
+   .INIT_FILE         ( "../../../modules/memory/memory_busy_wait.mem" ) )
  rom (
   .HRESETn            ( rst_n            ),
   .HCLK               ( clk_10mhz        ),
@@ -221,6 +229,86 @@ module cm0_busy_wait_top (
  //  .HREADYOUT          ( slv_hreadyout [1] ),
  //  .HREADY             ( slv_hready    [1] ),
  //  .HRESP              ( slv_hresp     [1] ) );
+
+ ahb3lite_cordic #(
+   .g_iterations ( 32               ),
+   .g_haddr_size ( c_haddr_width    ),
+   .g_hdata_size ( c_hdata_width    ) )
+ cordic0 (
+   .hreset_n_i   ( rst_n            ),
+   .hclk_i       ( clk_10mhz        ),
+   .hsel_i       ( slv_hsel      [1]),
+   .haddr_i      ( slv_haddr     [1]),
+   .hwdata_i     ( slv_hwdata    [1]),
+   .hrdata_o     ( slv_hrdata    [1]),
+   .hwrite_i     ( slv_hwrite    [1]),
+   .hsize_i      ( slv_hsize     [1]),
+   .hburst_i     ( slv_hburst    [1]),
+   .hprot_i      ( slv_hprot     [1]),
+   .htrans_i     ( slv_htrans    [1]),
+   .hreadyout_o  ( slv_hreadyout [1]),
+   .hready_i     ( slv_hreadyout [1]),
+   .hresp_o      ( slv_hresp     [1]) );
+
+   ahb3lite_cordic #(
+     .g_iterations ( 32               ),
+     .g_haddr_size ( c_haddr_width    ),
+     .g_hdata_size ( c_hdata_width    ) )
+   cordic1 (
+     .hreset_n_i   ( rst_n            ),
+     .hclk_i       ( clk_10mhz        ),
+     .hsel_i       ( slv_hsel      [2]),
+     .haddr_i      ( slv_haddr     [2]),
+     .hwdata_i     ( slv_hwdata    [2]),
+     .hrdata_o     ( slv_hrdata    [2]),
+     .hwrite_i     ( slv_hwrite    [2]),
+     .hsize_i      ( slv_hsize     [2]),
+     .hburst_i     ( slv_hburst    [2]),
+     .hprot_i      ( slv_hprot     [2]),
+     .htrans_i     ( slv_htrans    [2]),
+     .hreadyout_o  ( slv_hreadyout [2]),
+     .hready_i     ( slv_hreadyout [2]),
+     .hresp_o      ( slv_hresp     [2]) );
+
+   ahb3lite_cordic #(
+     .g_iterations ( 32               ),
+     .g_haddr_size ( c_haddr_width    ),
+     .g_hdata_size ( c_hdata_width    ) )
+   cordic2 (
+     .hreset_n_i   ( rst_n            ),
+     .hclk_i       ( clk_10mhz        ),
+     .hsel_i       ( slv_hsel      [3]),
+     .haddr_i      ( slv_haddr     [3]),
+     .hwdata_i     ( slv_hwdata    [3]),
+     .hrdata_o     ( slv_hrdata    [3]),
+     .hwrite_i     ( slv_hwrite    [3]),
+     .hsize_i      ( slv_hsize     [3]),
+     .hburst_i     ( slv_hburst    [3]),
+     .hprot_i      ( slv_hprot     [3]),
+     .htrans_i     ( slv_htrans    [3]),
+     .hreadyout_o  ( slv_hreadyout [3]),
+     .hready_i     ( slv_hreadyout [3]),
+     .hresp_o      ( slv_hresp     [3]) );
+
+   ahb3lite_cordic #(
+     .g_iterations ( 32               ),
+     .g_haddr_size ( c_haddr_width    ),
+     .g_hdata_size ( c_hdata_width    ) )
+   cordic3 (
+     .hreset_n_i   ( rst_n            ),
+     .hclk_i       ( clk_10mhz        ),
+     .hsel_i       ( slv_hsel      [4]),
+     .haddr_i      ( slv_haddr     [4]),
+     .hwdata_i     ( slv_hwdata    [4]),
+     .hrdata_o     ( slv_hrdata    [4]),
+     .hwrite_i     ( slv_hwrite    [4]),
+     .hsize_i      ( slv_hsize     [4]),
+     .hburst_i     ( slv_hburst    [4]),
+     .hprot_i      ( slv_hprot     [4]),
+     .htrans_i     ( slv_htrans    [4]),
+     .hreadyout_o  ( slv_hreadyout [4]),
+     .hready_i     ( slv_hreadyout [4]),
+     .hresp_o      ( slv_hresp     [4]) );
 
 
   ahb3lite_interconnect #(
@@ -281,7 +369,7 @@ module cm0_busy_wait_top (
      .hwdata_o              ( mst_hwdata    [0] ),      // ahb write-data
      .hwrite_o              ( mst_hwrite    [0] ),      // ahb write control
      .hrdata_i              ( mst_hrdata    [0] ),      // ahb read-data
-     .hready_i              ( 1'b1              ),      // mst_hready_0,               // ahb stall signal
+     .hready_i              ( mst_hreadyout [0] ),      // mst_hready_0,               // ahb stall signal
      .hresp_i               ( 1'b0              ),      // mst_hresp_0,                // ahb error response
      // miscellaneous
      .nmi_i                 ( 1'b0              ),      // non-maskable interrupt input
