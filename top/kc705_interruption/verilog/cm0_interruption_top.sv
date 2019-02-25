@@ -54,7 +54,7 @@ module cm0_interruption_top (
    //
 
    localparam c_masters_num = 1;
-   localparam c_slaves_num  = 5;
+   localparam c_slaves_num  = 6;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
@@ -108,6 +108,9 @@ module cm0_interruption_top (
    logic                     slv_hready    [c_slaves_num]; // combinatorial hready from all connected slaves
    logic                     slv_hresp     [c_slaves_num];
 
+   // Other signals
+   logic [           31 : 0] irq_vector;
+
 
 
    //////////////////////////////////////////////////////////////////
@@ -129,6 +132,8 @@ module cm0_interruption_top (
    assign slv_addr_base [3] = 32'h4000_0200;
    assign slv_addr_mask [4] = 32'hFFFF_FFE0;
    assign slv_addr_base [4] = 32'h4000_0300;
+   assign slv_addr_mask [5] = 32'hFFFF_FFE0;
+   assign slv_addr_base [5] = 32'h4000_0400;
 
    assign led3 = led_value;
    assign led4 = rst_n;
@@ -137,6 +142,8 @@ module cm0_interruption_top (
    assign led7 = 1'b1;
    assign rst = !rst_n;
    assign push_button0_n = !push_button0_i;
+
+   assign irq_vector [31:1] = {31{1'b0}};
 
 
 
@@ -310,6 +317,30 @@ module cm0_interruption_top (
      .hready_i     ( slv_hreadyout [4]),
      .hresp_o      ( slv_hresp     [4]) );
 
+   ahb3lite_timer #(
+     //AHB Parameters
+     .HADDR_SIZE ( c_haddr_width    ),
+     .HDATA_SIZE ( c_hdata_width    ),
+     //Timer Parameters
+     .TIMERS     ( 1                ) )  //Number of timers
+   timer0 (
+     .HRESETn    ( rst_n            ),
+     .HCLK       ( clk_10mhz        ),
+     //AHB Slave Interfaces (receive data from AHB Masters)
+     //AHB Masters connect to these ports
+     .HSEL       ( slv_hsel      [5]),
+     .HADDR      ( slv_haddr     [5]),
+     .HWDATA     ( slv_hwdata    [5]),
+     .HRDATA     ( slv_hrdata    [5]),
+     .HWRITE     ( slv_hwrite    [5]),
+     .HSIZE      ( slv_hsize     [5]),
+     .HBURST     ( slv_hburst    [5]),
+     .HPROT      ( slv_hprot     [5]),
+     .HTRANS     ( slv_htrans    [5]),
+     .HREADYOUT  ( slv_hreadyout [5]),
+     .HREADY     ( slv_hreadyout [5]),
+     .HRESP      ( slv_hresp     [5]),
+     .tint       ( irq_vector    [0]) );  //Timer Interrupt
 
   ahb3lite_interconnect #(
     .HADDR_SIZE    ( c_haddr_width ),
@@ -373,7 +404,7 @@ module cm0_interruption_top (
      .hresp_i               ( 1'b0              ),      // mst_hresp_0,                // ahb error response
      // miscellaneous
      .nmi_i                 ( 1'b0              ),      // non-maskable interrupt input
-     .irq_i                 ( {32{1'b0}}        ),      // interrupt request inputs
+     .irq_i                 ( irq_vector        ),      // interrupt request inputs
      .txev_o                (                   ),      // event output (sev executed)
      .rxev_i                ( 1'b0              ),      // event input
      .lockup_o              ( led2              ),      // core is locked-up
