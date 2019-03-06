@@ -132,7 +132,7 @@ module cm0_interruption_top (
    assign slv_addr_base [3] = 32'h4000_0200;
    assign slv_addr_mask [4] = 32'hFFFF_FFE0;
    assign slv_addr_base [4] = 32'h4000_0300;
-   assign slv_addr_mask [5] = 32'hFFFF_FFE0;
+   assign slv_addr_mask [5] = 32'hFFFF_FFC0;
    assign slv_addr_base [5] = 32'h4000_0400;
 
    assign led3 = led_value;
