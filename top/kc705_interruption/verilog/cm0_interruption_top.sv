@@ -194,7 +194,7 @@ module cm0_interruption_top (
    .HDATA_SIZE        ( 32               ),
    .TECHNOLOGY        ( "GENERIC"        ),
    .REGISTERED_OUTPUT ( "NO"             ),
-   .INIT_FILE         ( "../../../modules/memory/memory_busy_wait.mem" ) )
+   .INIT_FILE         ( "../../../modules/memory/memory_interrupt_sim.mem" ) )
  rom (
   .HRESETn            ( rst_n            ),
   .HCLK               ( clk_10mhz        ),
