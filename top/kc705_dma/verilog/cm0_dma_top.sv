@@ -54,7 +54,7 @@ module cm0_dma_top (
    //
 
    localparam c_masters_num = 1;
-   localparam c_slaves_num  = 6;
+   localparam c_slaves_num  = 7;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
@@ -109,6 +109,9 @@ module cm0_dma_top (
    logic                     slv_hresp     [c_slaves_num];
 
 
+   // Other signals
+   logic [           31 : 0] irq_vector;
+
 
    //////////////////////////////////////////////////////////////////
    //
@@ -129,6 +132,8 @@ module cm0_dma_top (
    assign slv_addr_base [4] = 32'h4000_0200;
    assign slv_addr_mask [5] = 32'hFFFF_FFE0;
    assign slv_addr_base [5] = 32'h4000_0300;
+   assign slv_addr_mask [6] = 32'hFFFF_FFC0;
+   assign slv_addr_base [6] = 32'h4000_0400;
 
    assign led3 = led_value;
    assign led4 = rst_n;
@@ -138,6 +143,7 @@ module cm0_dma_top (
    assign rst = !rst_n;
    assign push_button0_n = !push_button0_i;
 
+   assign irq_vector [31:1] = {31{1'b0}};
 
 
    IBUFDS #(
@@ -310,6 +316,30 @@ module cm0_dma_top (
      .hready_i     ( slv_hreadyout [5]),
      .hresp_o      ( slv_hresp     [5]) );
 
+   ahb3lite_timer #(
+     //AHB Parameters
+     .HADDR_SIZE ( c_haddr_width    ),
+     .HDATA_SIZE ( c_hdata_width    ),
+     //Timer Parameters
+     .TIMERS     ( 1                ) )  //Number of timers
+   timer0 (
+     .HRESETn    ( rst_n            ),
+     .HCLK       ( clk_10mhz        ),
+     //AHB Slave Interfaces (receive data from AHB Masters)
+     //AHB Masters connect to these ports
+     .HSEL       ( slv_hsel      [6]),
+     .HADDR      ( slv_haddr     [6]),
+     .HWDATA     ( slv_hwdata    [6]),
+     .HRDATA     ( slv_hrdata    [6]),
+     .HWRITE     ( slv_hwrite    [6]),
+     .HSIZE      ( slv_hsize     [6]),
+     .HBURST     ( slv_hburst    [6]),
+     .HPROT      ( slv_hprot     [6]),
+     .HTRANS     ( slv_htrans    [6]),
+     .HREADYOUT  ( slv_hreadyout [6]),
+     .HREADY     ( slv_hreadyout [6]),
+     .HRESP      ( slv_hresp     [6]),
+     .tint       ( irq_vector    [0]) );  //Timer Interrupt
 
   ahb3lite_interconnect #(
     .HADDR_SIZE    ( c_haddr_width ),
@@ -373,7 +403,7 @@ module cm0_dma_top (
      .hresp_i               ( 1'b0              ),      // mst_hresp_0,                // ahb error response
      // miscellaneous
      .nmi_i                 ( 1'b0              ),      // non-maskable interrupt input
-     .irq_i                 ( {32{1'b0}}        ),      // interrupt request inputs
+     .irq_i                 ( irq_vector        ),      // interrupt request inputs
      .txev_o                (                   ),      // event output (sev executed)
      .rxev_i                ( 1'b0              ),      // event input
      .lockup_o              ( led2              ),      // core is locked-up
