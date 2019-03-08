@@ -187,74 +187,74 @@ module cm0_dma_top (
      .clk2_o           (            ),
      .locked_o         ( led0       ) );
 
- ahb3lite_sram1rw #(
-   .MEM_DEPTH         ( 512              ),   // Memory depth
-   .HADDR_SIZE        ( 32               ),
-   .HDATA_SIZE        ( 32               ),
-   .TECHNOLOGY        ( "GENERIC"        ),
-   .REGISTERED_OUTPUT ( "NO"             ),
-   .INIT_FILE         ( "../../../modules/memory/memory_dma_sim.mem" ) )
- rom (
-  .HRESETn            ( rst_n            ),
-  .HCLK               ( clk_10mhz        ),
-  .HSEL               ( slv_hsel      [0]),
-  .HADDR              ( slv_haddr     [0]),
-  .HWDATA             ( slv_hwdata    [0]),
-  .HRDATA             ( slv_hrdata    [0]),
-  .HWRITE             ( slv_hwrite    [0]),
-  .HSIZE              ( slv_hsize     [0]),
-  .HBURST             ( slv_hburst    [0]),
-  .HPROT              ( slv_hprot     [0]),
-  .HTRANS             ( slv_htrans    [0]),
-  .HREADYOUT          ( slv_hreadyout [0]),
-  .HREADY             ( slv_hready    [0]),
-  .HRESP              ( slv_hresp     [0]) );
+   ahb3lite_sram1rw #(
+     .MEM_DEPTH         ( 512              ),   // Memory depth
+     .HADDR_SIZE        ( 32               ),
+     .HDATA_SIZE        ( 32               ),
+     .TECHNOLOGY        ( "GENERIC"        ),
+     .REGISTERED_OUTPUT ( "NO"             ),
+     .INIT_FILE         ( "../../../modules/memory/memory_dma_sim.mem" ) )
+   rom (
+     .HRESETn           ( rst_n            ),
+     .HCLK              ( clk_10mhz        ),
+     .HSEL              ( slv_hsel      [0]),
+     .HADDR             ( slv_haddr     [0]),
+     .HWDATA            ( slv_hwdata    [0]),
+     .HRDATA            ( slv_hrdata    [0]),
+     .HWRITE            ( slv_hwrite    [0]),
+     .HSIZE             ( slv_hsize     [0]),
+     .HBURST            ( slv_hburst    [0]),
+     .HPROT             ( slv_hprot     [0]),
+     .HTRANS            ( slv_htrans    [0]),
+     .HREADYOUT         ( slv_hreadyout [0]),
+     .HREADY            ( slv_hready    [0]),
+     .HRESP             ( slv_hresp     [0]) );
 
    // assign slv_hready [0] = rst_n;
 
 
- ahb3lite_sram1rw #(
-   .MEM_SIZE          ( 0                 ),   // Memory in Bytes
-   .MEM_DEPTH         ( 512               ),   // Memory depth
-   .HADDR_SIZE        ( 32                ),
-   .HDATA_SIZE        ( 32                ),
-   .TECHNOLOGY        ( "GENERIC"         ),
-   .REGISTERED_OUTPUT ( "NO"              ) )
- ram (
-  .HRESETn            ( rst_n             ),
-  .HCLK               ( clk_10mhz         ),
-  .HSEL               ( slv_hsel      [1] ),
-  .HADDR              ( slv_haddr     [1] ),
-  .HWDATA             ( slv_hwdata    [1] ),
-  .HRDATA             ( slv_hrdata    [1] ),
-  .HWRITE             ( slv_hwrite    [1] ),
-  .HSIZE              ( slv_hsize     [1] ),
-  .HBURST             ( slv_hburst    [1] ),
-  .HPROT              ( slv_hprot     [1] ),
-  .HTRANS             ( slv_htrans    [1] ),
-  .HREADYOUT          ( slv_hreadyout [1] ),
-  .HREADY             ( slv_hready    [1] ),
-  .HRESP              ( slv_hresp     [1] ) );
+   ahb3lite_sram1rw #(
+     .MEM_SIZE          ( 0                 ),   // Memory in Bytes
+     .MEM_DEPTH         ( 512               ),   // Memory depth
+     .HADDR_SIZE        ( 32                ),
+     .HDATA_SIZE        ( 32                ),
+     .TECHNOLOGY        ( "GENERIC"         ),
+     .REGISTERED_OUTPUT ( "NO"              ) )
+   ram (
+     .HRESETn           ( rst_n             ),
+     .HCLK              ( clk_10mhz         ),
+     .HSEL              ( slv_hsel      [1] ),
+     .HADDR             ( slv_haddr     [1] ),
+     .HWDATA            ( slv_hwdata    [1] ),
+     .HRDATA            ( slv_hrdata    [1] ),
+     .HWRITE            ( slv_hwrite    [1] ),
+     .HSIZE             ( slv_hsize     [1] ),
+     .HBURST            ( slv_hburst    [1] ),
+     .HPROT             ( slv_hprot     [1] ),
+     .HTRANS            ( slv_htrans    [1] ),
+     .HREADYOUT         ( slv_hreadyout [1] ),
+     .HREADY            ( slv_hready    [1] ),
+     .HRESP             ( slv_hresp     [1] ) );
 
- ahb3lite_cordic #(
-   .g_iterations ( 32               ),
-   .g_haddr_size ( c_haddr_width    ),
-   .g_hdata_size ( c_hdata_width    ) )
- cordic0 (
-   .hreset_n_i   ( rst_n            ),
-   .hclk_i       ( clk_10mhz        ),
-   .hsel_i       ( slv_hsel      [2]),
-   .haddr_i      ( slv_haddr     [2]),
-   .hwdata_i     ( slv_hwdata    [2]),
-   .hrdata_o     ( slv_hrdata    [2]),
-   .hwrite_i     ( slv_hwrite    [2]),
-   .hsize_i      ( slv_hsize     [2]),
-   .hburst_i     ( slv_hburst    [2]),
-   .hprot_i      ( slv_hprot     [2]),
-   .htrans_i     ( slv_htrans    [2]),
-   .hreadyout_o  ( slv_hreadyout [2]),
-   .hready_i     ( slv_hreadyout [2]),
-   .hresp_o      ( slv_hresp     [2]) );
+   ahb3lite_cordic #(
+     .g_iterations ( 32               ),
+     .g_haddr_size ( c_haddr_width    ),
+     .g_hdata_size ( c_hdata_width    ) )
+   cordic0 (
+     .hreset_n_i   ( rst_n            ),
+     .hclk_i       ( clk_10mhz        ),
+     .hsel_i       ( slv_hsel      [2]),
+     .haddr_i      ( slv_haddr     [2]),
+     .hwdata_i     ( slv_hwdata    [2]),
+     .hrdata_o     ( slv_hrdata    [2]),
+     .hwrite_i     ( slv_hwrite    [2]),
+     .hsize_i      ( slv_hsize     [2]),
+     .hburst_i     ( slv_hburst    [2]),
+     .hprot_i      ( slv_hprot     [2]),
+     .htrans_i     ( slv_htrans    [2]),
+     .hreadyout_o  ( slv_hreadyout [2]),
+     .hready_i     ( slv_hreadyout [2]),
+     .hresp_o      ( slv_hresp     [2]) );
 
    ahb3lite_cordic #(
      .g_iterations ( 32               ),
