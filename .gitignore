@@ -75,3 +75,7 @@
 ##########
 ## Python files
 !*.py
+
+# ignoring files provided by ARM DesignStart program
+modules/cortex-m0/verilog/CORTEXM0INTEGRATION.v
+modules/cortex-m0/verilog/cortexm0ds_logic.v

@@ -157,7 +157,7 @@ architecture rtl of cortex_m0_wrapper is
   signal SLEEPDEEP     : std_logic                      := '0';
   signal WAKEUP        : std_logic                      := '0';
   signal WICSENSE      : std_logic_vector(33 downto 0)  := (others => '0');
-  signal SLEEPHOLDREQn : std_logic                      := '0';
+  signal SLEEPHOLDREQn : std_logic                      := '1';
   signal SLEEPHOLDACKn : std_logic                      := '0';
   signal WICENREQ      : std_logic                      := '0';
   signal WICENACK      : std_logic                      := '0';
