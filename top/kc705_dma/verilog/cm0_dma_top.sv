@@ -193,7 +193,7 @@ module cm0_dma_top (
    .HDATA_SIZE        ( 32               ),
    .TECHNOLOGY        ( "GENERIC"        ),
    .REGISTERED_OUTPUT ( "NO"             ),
-   .INIT_FILE         ( "../../../modules/memory/memory_dma.mem" ) )
+   .INIT_FILE         ( "../../../modules/memory/memory_dma_sim.mem" ) )
  rom (
   .HRESETn            ( rst_n            ),
   .HCLK               ( clk_10mhz        ),
