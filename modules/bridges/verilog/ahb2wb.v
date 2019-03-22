@@ -1,10 +1,45 @@
-// Obtained from https://www.valpont.com/ahb-to-wishbone-and-wishbone-to-ahb-bridges-in-verilog/pst/
+///////////////////////////////////////////////////////////////////////////////
+// Vitor Finotti
+//
+// <project-url>
+///////////////////////////////////////////////////////////////////////////////
+//
+// unit name:     AHB3-Lite to Wishbone bridge
+//
+// description: Bridge for conversion from a AHB3-Lite master to a Wishbone slave.
+//   Inspired on the code of
+//   https://www.valpont.com/ahb-to-wishbone-and-wishbone-to-ahb-bridges-in-verilog/pst/
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2019 Vitor Finotti
+///////////////////////////////////////////////////////////////////////////////
+// MIT
+///////////////////////////////////////////////////////////////////////////////
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
 
-module s_ahb2wb(
-  //ahb
-  HCLK,
-  HRESETn,
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+///////////////////////////////////////////////////////////////////////////////
+
+module ahb3lite_to_wb (
+  clk_i,
+  rst_n_i,
+
+  // ahb3lite
   sHADDR,
   sHWDATA,
   sHWRITE,
@@ -18,7 +53,7 @@ module s_ahb2wb(
   sHREADY,
   sHPROT,
 
-  //to wishbone
+  // to wishbone
   to_wb_dat_i,
   to_wb_adr_i,
   to_wb_sel_i,
@@ -30,8 +65,8 @@ module s_ahb2wb(
   from_wb_err_o
   );
 
-input           HCLK;
-input	        HRESETn;
+input           clk_i;
+input	        rst_n_i;
 input   [31:0]  sHADDR;
 input   [31:0]  sHWDATA;
 input           sHWRITE;
@@ -156,9 +191,9 @@ begin
 
 end
 
-always @(posedge HCLK or negedge HRESETn)
+always @(posedge clk_i or negedge rst_n_i)
 begin
-  if(!HRESETn)
+  if(!rst_n_i)
     begin
       isHRESP      <= 1'b0;
       ito_wb_cyc_i <= 1'b0;

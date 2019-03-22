@@ -1,40 +1,75 @@
-// Obtained from https://www.valpont.com/ahb-to-wishbone-and-wishbone-to-ahb-bridges-in-verilog/pst/
+///////////////////////////////////////////////////////////////////////////////
+// Vitor Finotti
+//
+// <project-url>
+///////////////////////////////////////////////////////////////////////////////
+//
+// unit name:     Wishbone to AHB3-Lite bridge
+//
+// description: Bridge for conversion from a Wishbone master to a AHB3-Lite slave.
+//   Inspired on the code of
+//   https://www.valpont.com/ahb-to-wishbone-and-wishbone-to-ahb-bridges-in-verilog/pst/
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2019 Vitor Finotti
+///////////////////////////////////////////////////////////////////////////////
+// MIT
+///////////////////////////////////////////////////////////////////////////////
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
 
-module m_wb2ahb(
-  ////ahb
-    HCLK,
-    HRESETn,
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 
-    mHSEL,
-    mHSIZE,
-    mHRDATA,
-    mHRESP,
-    mHREADY,
-    mHREADYOUT,
-    mHWRITE,
-    mHBURST,
-    mHADDR,
-    mHTRANS,
-    mHWDATA,
-    mHPROT,
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+///////////////////////////////////////////////////////////////////////////////
 
-  ////to wishbone
-    from_m_wb_adr_o,
-    from_m_wb_sel_o,
-    from_m_wb_we_o,
-    from_m_wb_dat_o,
-    from_m_wb_cyc_o,
-    from_m_wb_stb_o,
-    to_m_wb_ack_i,
-    to_m_wb_err_i,
-    to_m_wb_dat_i,
+module wb_to_ahb3lite (
+  clk_i,
+  rst_n_i,
 
-    from_m_wb_cti_o,
-    from_m_wb_bte_o
+  //// wishbone
+  from_m_wb_adr_o,
+  from_m_wb_sel_o,
+  from_m_wb_we_o,
+  from_m_wb_dat_o,
+  from_m_wb_cyc_o,
+  from_m_wb_stb_o,
+  to_m_wb_ack_i,
+  to_m_wb_err_i,
+  to_m_wb_dat_i,
 
+  from_m_wb_cti_o,
+  from_m_wb_bte_o,
+
+  //// to ahb3lite
+  mHSEL,
+  mHSIZE,
+  mHRDATA,
+  mHRESP,
+  mHREADY,
+  mHREADYOUT,
+  mHWRITE,
+  mHBURST,
+  mHADDR,
+  mHTRANS,
+  mHWDATA,
+  mHPROT
 );
-input          HCLK;
-input	       HRESETn;
+
+input          clk_i;
+input	       rst_n_i;
 
 input  [31:0]  mHRDATA;
 input          mHRESP;
@@ -89,9 +124,9 @@ assign to_m_wb_err_i = mHRESP;
 assign mHSEL         = from_m_wb_cyc_o;
 assign mHREADYOUT    = 1'b1;
 
-always @(posedge HCLK or negedge HRESETn)
+always @(posedge clk_i or negedge rst_n_i)
 begin
-  if(!HRESETn)
+  if(!rst_n_i)
     ctrlstart <= 1'b0;
   else if(mHREADY && !ctrlstart)
     ctrlstart <= 1'b1;
@@ -101,9 +136,9 @@ begin
     ctrlstart <= 1'b0;
 end
 
-always @(posedge HCLK or negedge HRESETn)
+always @(posedge clk_i or negedge rst_n_i)
 begin
-  if(!HRESETn)
+  if(!rst_n_i)
       ackmask <= 1'b0;
   else if(!from_m_wb_stb_o)
       ackmask <= 1'b0;
