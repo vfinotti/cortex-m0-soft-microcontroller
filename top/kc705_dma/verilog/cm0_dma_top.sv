@@ -416,6 +416,113 @@ module cm0_dma_top (
      .HRESP             ( slv_hresp     [8] ) );
 
 
+   ahb3lite_dma #(
+     // chXX_conf = { CBUF, ED, ARS, EN }
+     .rf_addr   ( 0           ),
+     .pri_sel   ( 2'h0        ),
+     .ch_count  ( 1           ),
+     .ch0_conf  ( 4'h1        ),
+     .ch1_conf  ( 4'h0        ),
+     .ch2_conf  ( 4'h0        ),
+     .ch3_conf  ( 4'h0        ),
+     .ch4_conf  ( 4'h0        ),
+     .ch5_conf  ( 4'h0        ),
+     .ch6_conf  ( 4'h0        ),
+     .ch7_conf  ( 4'h0        ),
+     .ch8_conf  ( 4'h0        ),
+     .ch9_conf  ( 4'h0        ),
+     .ch10_conf ( 4'h0        ),
+     .ch11_conf ( 4'h0        ),
+     .ch12_conf ( 4'h0        ),
+     .ch13_conf ( 4'h0        ),
+     .ch14_conf ( 4'h0        ),
+     .ch15_conf ( 4'h0        ),
+     .ch16_conf ( 4'h0        ),
+     .ch17_conf ( 4'h0        ),
+     .ch18_conf ( 4'h0        ),
+     .ch19_conf ( 4'h0        ),
+     .ch20_conf ( 4'h0        ),
+     .ch21_conf ( 4'h0        ),
+     .ch22_conf ( 4'h0        ),
+     .ch23_conf ( 4'h0        ),
+     .ch24_conf ( 4'h0        ),
+     .ch25_conf ( 4'h0        ),
+     .ch26_conf ( 4'h0        ),
+     .ch27_conf ( 4'h0        ),
+     .ch28_conf ( 4'h0        ),
+     .ch29_conf ( 4'h0        ),
+     .ch30_conf ( 4'h0        ) )
+   ahb3lite_dma0 (
+  // Common signals
+  .clk_i        ( clk_10mhz   ),
+  .rst_i        ( rst         ),
+  // --------------------------------------
+  // WISHBONE INTERFACE 0
+  // Slave Interface
+  .s0HSEL       ( s0HSEL      ),
+  .s0HADDR      ( s0HADDR     ),
+  .s0HWDATA     ( s0HWDATA    ),
+  .s0HRDATA     ( s0HRDATA    ),
+  .s0HWRITE     ( s0HWRITE    ),
+  .s0HSIZE      ( s0HSIZE     ),
+  .s0HBURST     ( s0HBURST    ),
+  .s0HPROT      ( s0HPROT     ),
+  .s0HTRANS     ( s0HTRANS    ),
+  .s0HREADYOUT  ( s0HREADYOUT ),
+  .s0HREADY     ( s0HREADY    ),
+  .s0HRESP      ( s0HRESP     ),
+
+  // Master Interface
+  .s0HSEL       ( s0HSEL      ),
+  .s0HADDR      ( s0HADDR     ),
+  .s0HWDATA     ( s0HWDATA    ),
+  .s0HRDATA     ( s0HRDATA    ),
+  .s0HWRITE     ( s0HWRITE    ),
+  .s0HSIZE      ( s0HSIZE     ),
+  .s0HBURST     ( s0HBURST    ),
+  .s0HPROT      ( s0HPROT     ),
+  .s0HTRANS     ( s0HTRANS    ),
+  .s0HREADYOUT  ( s0HREADYOUT ),
+  .s0HREADY     ( s0HREADY    ),
+  .s0HRESP      ( s0HRESP     ),
+  // --------------------------------------
+  // WISHBONE INTERFACE 1
+  // Slave Interface
+  .s1HSEL       ( s1HSEL      ),
+  .s1HADDR      ( s1HADDR     ),
+  .s1HWDATA     ( s1HWDATA    ),
+  .s1HRDATA     ( s1HRDATA    ),
+  .s1HWRITE     ( s1HWRITE    ),
+  .s1HSIZE      ( s1HSIZE     ),
+  .s1HBURST     ( s1HBURST    ),
+  .s1HPROT      ( s1HPROT     ),
+  .s1HTRANS     ( s1HTRANS    ),
+  .s1HREADYOUT  ( s1HREADYOUT ),
+  .s1HREADY     ( s1HREADY    ),
+  .s1HRESP      ( s1HRESP     ),
+  // Master Interface
+  .s1HSEL       ( s1HSEL      ),
+  .s1HADDR      ( s1HADDR     ),
+  .s1HWDATA     ( s1HWDATA    ),
+  .s1HRDATA     ( s1HRDATA    ),
+  .s1HWRITE     ( s1HWRITE    ),
+  .s1HSIZE      ( s1HSIZE     ),
+  .s1HBURST     ( s1HBURST    ),
+  .s1HPROT      ( s1HPROT     ),
+  .s1HTRANS     ( s1HTRANS    ),
+  .s1HREADYOUT  ( s1HREADYOUT ),
+  .s1HREADY     ( s1HREADY    ),
+  .s1HRESP      ( s1HRESP     ),
+  // --------------------------------------
+  // Misc Signal,
+  .dma_req_i    ( dma_req_i   ),
+  .dma_nd_i     ( dma_nd_i    ),
+  .dma_ack_o    ( dma_ack_o   ),
+  .dma_rest_i   ( dma_rest_i  ),
+  .inta_o       ( inta_o      ),
+  .intb_o       ( intb_o      ) );
+
+
   ahb3lite_interconnect #(
     .HADDR_SIZE    ( c_haddr_width ),
     .HDATA_SIZE    ( 32            ),
