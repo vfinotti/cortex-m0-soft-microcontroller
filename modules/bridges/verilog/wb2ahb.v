@@ -11,15 +11,12 @@ module m_wb2ahb(
     mHRESP,
     mHREADY,
     mHREADYOUT,
-    mHGRANT,
     mHWRITE,
     mHBURST,
     mHADDR,
     mHTRANS,
     mHWDATA,
-  //mHPROT,
-    HBUSREQ,
-  //HLOCK,
+    mHPROT,
 
   ////to wishbone
     from_m_wb_adr_o,
@@ -40,9 +37,8 @@ input          HCLK;
 input	       HRESETn;
 
 input  [31:0]  mHRDATA;
-input  [1:0]   mHRESP;
+input          mHRESP;
 input          mHREADY;
-input  	       mHGRANT;
 output         mHSEL;
 output [2:0]   mHSIZE;
 output         mHWRITE;
@@ -51,9 +47,7 @@ output [31:0]  mHADDR;
 output [1:0]   mHTRANS;
 output [31:0]  mHWDATA;
 output         mHREADYOUT;
-output         HBUSREQ;
-//output         HLOCK;
-//output  [3:0]  mHPROT;
+output  [3:0]  mHPROT;
 
 input  [31:0]  from_m_wb_adr_o;
 input  [3:0]   from_m_wb_sel_o;
@@ -78,37 +72,20 @@ reg             ackmask;
 reg             ctrlstart;
 wire            isburst;
 //////////////////////////////////
-reg test_askmask;
-always @(!HRESETn)
-  if(!HRESETn)
-    begin
-      test_askmask <= 1'b1;
-    end
-
-task cycle_response;
-  input ack_err_rty_resp;
-begin
-  test_askmask <= ack_err_rty_resp;
-end
-endtask
-
-//////////////////////////////////
 assign isburst       = (from_m_wb_cti_o == 3'b000) ? 1'b0 : 1'b1;
 assign to_m_wb_dat_i = mHRDATA ;
-assign to_m_wb_ack_i = ackmask & mHREADY & from_m_wb_stb_o & test_askmask;
+assign to_m_wb_ack_i = ackmask & mHREADY & from_m_wb_stb_o;
 assign mHADDR        = (~isburst || (ctrlstart && !ackmask) || !ctrlstart) ? from_m_wb_adr_o
                         : from_m_wb_adr_o + 3'b100;
 assign mHWDATA       = from_m_wb_dat_o;
 assign mHSIZE        = 3'b010;                                //word
 assign mHBURST       = (ctrlstart && (from_m_wb_cti_o == 3'b010)) ? 3'b011 : 3'b000;
-assign HBUSREQ       = (isburst)
-                       ? (from_m_wb_cti_o == 3'b010)
-                       : (from_m_wb_stb_o && ~ackmask) ;
+
 assign mHWRITE       = from_m_wb_we_o;
 assign mHTRANS       = (ctrlstart && !ackmask)
                        ? NONSEQ
                        : ( (from_m_wb_cti_o == 3'b010 && ctrlstart) ? SEQ : IDLE );
-assign to_m_wb_err_i = (mHRESP == 2'b00) ? 1'b0 : 1'b1;
+assign to_m_wb_err_i = mHRESP;
 assign mHSEL         = from_m_wb_cyc_o;
 assign mHREADYOUT    = 1'b1;
 
@@ -116,9 +93,7 @@ always @(posedge HCLK or negedge HRESETn)
 begin
   if(!HRESETn)
     ctrlstart <= 1'b0;
-  else if(!HBUSREQ)
-    ctrlstart <= 1'b0;
-  else if(mHGRANT && mHREADY && !ctrlstart)
+  else if(mHREADY && !ctrlstart)
     ctrlstart <= 1'b1;
   else if(ctrlstart)
     ctrlstart <= 1'b1;
