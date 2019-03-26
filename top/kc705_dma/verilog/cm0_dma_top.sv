@@ -112,29 +112,6 @@ module cm0_dma_top (
    // Other signals
    logic [           31 : 0] irq_vector;
 
-   logic                     ram0_mHSEL;
-   logic [           31 : 0] ram0_mHADDR;
-   logic [           31 : 0] ram0_mHWDATA;
-   logic [           31 : 0] ram0_mHRDATA;
-   logic [           31 : 0] ram0_mHWRITE;
-   logic [            2 : 0] ram0_mHBURST;
-   logic [            3 : 0] ram0_mHPROT;
-   logic [            1 : 0] ram0_mHTRANS;
-   logic                     ram0_mHREADY;
-   logic                     ram0_mHREADYOUT;
-   logic                     ram0_mHRESP;
-
-   logic [           31 : 0] to_wb_dat;
-   logic [           31 : 0] to_wb_adr;
-   logic [            3 : 0] to_wb_sel;
-   logic                     to_wb_we;
-   logic                     to_wb_cyc;
-   logic                     to_wb_stb;
-   logic [           31 : 0] from_wb_dat;
-   logic                     from_wb_ack;
-   logic                     from_wb_err;
-
-
 
    //////////////////////////////////////////////////////////////////
    //
