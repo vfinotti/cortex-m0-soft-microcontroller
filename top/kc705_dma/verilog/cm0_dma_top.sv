@@ -118,26 +118,37 @@ module cm0_dma_top (
    // Module Body
    //
 
-   assign mst_priority [0] = "111";
-   assign mst_hsel [0] = 1'b1;
-   assign slv_addr_mask [0] = 32'hE000_0000;
-   assign slv_addr_base [0] = 32'h0000_0000;
-   assign slv_addr_mask [1] = 32'hE000_0000;
-   assign slv_addr_base [1] = 32'h2000_0000;
-   assign slv_addr_mask [2] = 32'hFFFF_FFE0;
-   assign slv_addr_base [2] = 32'h4000_0000;
-   assign slv_addr_mask [3] = 32'hFFFF_FFE0;
-   assign slv_addr_base [3] = 32'h4000_0100;
-   assign slv_addr_mask [4] = 32'hFFFF_FFE0;
-   assign slv_addr_base [4] = 32'h4000_0200;
-   assign slv_addr_mask [5] = 32'hFFFF_FFE0;
-   assign slv_addr_base [5] = 32'h4000_0300;
-   assign slv_addr_mask [6] = 32'hFFFF_FFC0;
-   assign slv_addr_base [6] = 32'h4000_0400;
-   assign slv_addr_mask [7] = 32'hFFFF_F000;
-   assign slv_addr_base [7] = 32'h4000_1000;
-   assign slv_addr_mask [8] = 32'hFFFF_F000;
-   assign slv_addr_base [8] = 32'h4000_2000;
+   assign mst_priority  [0]  = "111";
+   assign mst_hsel      [0]  = 1'b1;
+   assign mst_priority  [1]  = "001";
+   assign mst_hsel      [1]  = 1'b1;
+   assign mst_priority  [2]  = "000";
+   assign mst_hsel      [2]  = 1'b1;
+   assign slv_addr_mask [0]  = 32'hE000_0000;
+   assign slv_addr_base [0]  = 32'h0000_0000;
+   assign slv_addr_mask [1]  = 32'hE000_0000;
+   assign slv_addr_base [1]  = 32'h2000_0000;
+   assign slv_addr_mask [2]  = 32'hFFFF_FFE0;
+   assign slv_addr_base [2]  = 32'h4000_0000;
+   assign slv_addr_mask [3]  = 32'hFFFF_FFE0;
+   assign slv_addr_base [3]  = 32'h4000_0100;
+   assign slv_addr_mask [4]  = 32'hFFFF_FFE0;
+   assign slv_addr_base [4]  = 32'h4000_0200;
+   assign slv_addr_mask [5]  = 32'hFFFF_FFE0;
+   assign slv_addr_base [5]  = 32'h4000_0300;
+   assign slv_addr_mask [6]  = 32'hFFFF_FFC0;
+   assign slv_addr_base [6]  = 32'h4000_0400;
+   assign slv_addr_mask [7]  = 32'hFFFF_F000;
+   assign slv_addr_base [7]  = 32'h4000_1000;
+   assign slv_addr_mask [8]  = 32'hFFFF_F000;
+   assign slv_addr_base [8]  = 32'h4000_2000;
+   assign slv_addr_mask [9]  = 32'hFFFF_F000;
+   assign slv_addr_base [9]  = 32'h5000_0000;
+   assign slv_addr_mask [10] = 32'hFFFF_F000;
+   assign slv_addr_base [10] = 32'h5000_1000; // for a limitation on the DMA, no
+                                             // other core should start with
+                                             // addr "5' (check "rf_addr" on
+                                             // page 31 of its datasheet
 
    assign led3 = led_value;
    assign led4 = rst_n;
