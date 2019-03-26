@@ -53,8 +53,8 @@ module cm0_dma_top (
    // Constants
    //
 
-   localparam c_masters_num = 1;
-   localparam c_slaves_num  = 9;
+   localparam c_masters_num = 3;
+   localparam c_slaves_num  = 11;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
