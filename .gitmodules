@@ -19,9 +19,6 @@
 [submodule "ip_cores/roa_logic/ahb3lite_timer"]
 	path = ip_cores/roa_logic/ahb3lite_timer
 	url = https://github.com/vfinotti/ahb3lite_timer.git
-[submodule "ip_cores/dma_ahb"]
-	path = ip_cores/dma_ahb
-	url = https://github.com/freecores/dma_ahb.git
 [submodule "ip_cores/ahb3lite_dma"]
 	path = ip_cores/ahb3lite_dma
 	url = git@github.com:vfinotti/ahb3lite_dma.git
