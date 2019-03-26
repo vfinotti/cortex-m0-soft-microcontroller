@@ -19,6 +19,7 @@ modules = {
               "../../../modules/memory/vhdl",
               "../../../ip_cores/general-cores",
               "../../../modules/misc/vhdl",
-              "../../../modules/cordic/vhdl"],
+              "../../../modules/cordic/vhdl",
+              "../../../ip_cores/ahb3lite_dma"],
 
 }
