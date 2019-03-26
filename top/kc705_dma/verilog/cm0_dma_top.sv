@@ -533,7 +533,7 @@ module cm0_dma_top (
     .mst_HTRANS    ( mst_htrans    ),
     .mst_HMASTLOCK ( mst_hmastlock ),
     .mst_HREADYOUT ( mst_hreadyout ),
-    .mst_HREADY    ( mst_hreadyout ),
+    .mst_HREADY    ( mst_hready    ),
     .mst_HRESP     ( mst_hresp     ),
     // Slave Ports
     .slv_addr_mask ( slv_addr_mask ),
@@ -580,6 +580,6 @@ module cm0_dma_top (
      // power management
      .sleeping_o            ( led1              ) );    // core and nvic sleeping
 
-   // assign mst_hready [0] = 1'b1; // Cortex M0 has no hreadyout
+   assign mst_hready [0] = 1'b1; // Cortex M0 has no hreadyout
 
 endmodule // cm0_softmc_top
