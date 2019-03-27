@@ -53,8 +53,8 @@ module cm0_dma_top (
    // Constants
    //
 
-   localparam c_masters_num = 3;
-   localparam c_slaves_num  = 11;
+   localparam c_masters_num = 2;
+   localparam c_slaves_num  = 10;
    localparam c_haddr_width = 32;
    localparam c_hdata_width = 32;
 
@@ -122,8 +122,6 @@ module cm0_dma_top (
    assign mst_hsel      [0]  = 1'b1;
    assign mst_priority  [1]  = "001";
    assign mst_hsel      [1]  = 1'b1;
-   assign mst_priority  [2]  = "000";
-   assign mst_hsel      [2]  = 1'b1;
    assign slv_addr_mask [0]  = 32'hE000_0000;
    assign slv_addr_base [0]  = 32'h0000_0000;
    assign slv_addr_mask [1]  = 32'hE000_0000;
@@ -143,12 +141,10 @@ module cm0_dma_top (
    assign slv_addr_mask [8]  = 32'hFFFF_F000;
    assign slv_addr_base [8]  = 32'h4000_2000;
    assign slv_addr_mask [9]  = 32'hFFFF_F000;
-   assign slv_addr_base [9]  = 32'h5000_0000;
-   assign slv_addr_mask [10] = 32'hFFFF_F000;
-   assign slv_addr_base [10] = 32'h5000_1000; // for a limitation on the DMA, no
-                                             // other core should start with
-                                             // addr "5' (check "rf_addr" on
-                                             // page 31 of its datasheet
+   assign slv_addr_base [9]  = 32'h5000_0000; // for a limitation on the DMA, no
+                                              // other core should start with
+                                              // addr "5' (check "rf_addr" on
+                                              // page 31 of its datasheet
 
    assign led3 = led_value;
    assign led4 = rst_n;
@@ -472,34 +468,6 @@ module cm0_dma_top (
      .m0HREADYOUT  ( mst_hready    [1]  ),
      .m0HREADY     ( mst_hreadyout [1]  ),
      .m0HRESP      ( mst_hresp     [1]  ),
-     // --------------------------------------
-     // WISHBONE INTERFACE 1
-     // Slave Interface
-     .s1HSEL       ( slv_hsel      [10] ),
-     .s1HADDR      ( slv_haddr     [10] ),
-     .s1HWDATA     ( slv_hwdata    [10] ),
-     .s1HRDATA     ( slv_hrdata    [10] ),
-     .s1HWRITE     ( slv_hwrite    [10] ),
-     .s1HSIZE      ( slv_hsize     [10] ),
-     .s1HBURST     ( slv_hburst    [10] ),
-     .s1HPROT      ( slv_hprot     [10] ),
-     .s1HTRANS     ( slv_htrans    [10] ),
-     .s1HREADYOUT  ( slv_hreadyout [10] ),
-     .s1HREADY     ( slv_hready    [10] ),
-     .s1HRESP      ( slv_hresp     [10] ),
-     // Master Interface
-     .m1HSEL       ( mst_hsel      [2]  ),
-     .m1HADDR      ( mst_haddr     [2]  ),
-     .m1HWDATA     ( mst_hwdata    [2]  ),
-     .m1HRDATA     ( mst_hrdata    [2]  ),
-     .m1HWRITE     ( mst_hwrite    [2]  ),
-     .m1HSIZE      ( mst_hsize     [2]  ),
-     .m1HBURST     ( mst_hburst    [2]  ),
-     .m1HPROT      ( mst_hprot     [2]  ),
-     .m1HTRANS     ( mst_htrans    [2]  ),
-     .m1HREADYOUT  ( mst_hready    [2]  ),
-     .m1HREADY     ( mst_hreadyout [2]  ),
-     .m1HRESP      ( mst_hresp     [2]  ),
      // --------------------------------------
      // Misc Signal,
      .dma_req_i    ( 1'b0               ),
