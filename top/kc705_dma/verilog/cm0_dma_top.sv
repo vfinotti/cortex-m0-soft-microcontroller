@@ -148,7 +148,7 @@ module cm0_dma_top (
    assign led4 = rst_n;
    assign led5 = 1'b1;
    assign led6 = 1'b0;
-   assign led7 = 1'b1;
+   assign led7 = irqa_o;
    assign rst = !rst_n;
    assign push_button0_n = !push_button0_i;
 
