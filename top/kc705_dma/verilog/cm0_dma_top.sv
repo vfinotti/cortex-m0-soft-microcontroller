@@ -121,7 +121,6 @@ module cm0_dma_top (
    assign mst_priority  [0]  = "111";
    assign mst_hsel      [0]  = 1'b1;
    assign mst_priority  [1]  = "001";
-   assign mst_hsel      [1]  = 1'b1;
    assign slv_addr_mask [0]  = 32'hE000_0000;
    assign slv_addr_base [0]  = 32'h0000_0000;
    assign slv_addr_mask [1]  = 32'hE000_0000;
