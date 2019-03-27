@@ -439,7 +439,7 @@ module cm0_dma_top (
      .clk_i        ( clk_10mhz          ),
      .rst_n_i      ( rst_n              ),
      // --------------------------------------
-     // WISHBONE INTERFACE 0
+     // AHB3-Lite INTERFACE 0
      // Slave Interface
      .s0HSEL       ( slv_hsel      [9]  ),
      .s0HADDR      ( slv_haddr     [9]  ),
