@@ -61,6 +61,7 @@ architecture rtl of rl_ram_1r1w_generic is
 
   type RamType is array (0 to (2**ABITS-1)) of bit_vector(DBITS-1 downto 0);
 
+  -- Function that loads RAM values from file
   impure function InitRamFromFile (RamFileName : in string) return RamType is
     file RamFile         : text is in RamFileName;
     variable RamFileLine : line;
@@ -73,7 +74,20 @@ architecture rtl of rl_ram_1r1w_generic is
     return RAM;
   end function;
 
-  signal RAM       : RamType := InitRamFromFile(INIT_FILE);
+  -- Function to evaluate if there is a init file mentioned and use
+  -- InitRamFromFile if so
+  impure function InitRam (RamFileName : in string) return RamType is
+    variable RAM         : RamType;
+  begin
+    if RamFileName /= "" then
+      RAM := InitRamFromFile(RamFileName);
+    else
+      RAM := (others => (others => '0'));
+    end if;
+    return RAM;
+  end function;
+
+  signal RAM       : RamType := InitRam(INIT_FILE);
 
 
 begin  -- architecture rtl
