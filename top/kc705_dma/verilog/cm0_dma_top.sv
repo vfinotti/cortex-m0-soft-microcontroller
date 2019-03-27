@@ -473,8 +473,8 @@ module cm0_dma_top (
      .dma_nd_i     ( 1'b0               ),
      .dma_ack_o    ( dma_ack_o          ),
      .dma_rest_i   ( 1'b0               ),
-     .inta_o       ( inta_o             ),
-     .intb_o       ( intb_o             ) );
+     .irqa_o       ( irqa_o             ),
+     .irqb_o       ( irqb_o             ) );
 
 
   ahb3lite_interconnect #(
