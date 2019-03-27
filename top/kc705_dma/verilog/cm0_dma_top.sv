@@ -119,7 +119,6 @@ module cm0_dma_top (
    //
 
    assign mst_priority  [0]  = "111";
-   assign mst_hsel      [0]  = 1'b1;
    assign mst_priority  [1]  = "001";
    assign slv_addr_mask [0]  = 32'hE000_0000;
    assign slv_addr_base [0]  = 32'h0000_0000;
@@ -548,5 +547,6 @@ module cm0_dma_top (
      .sleeping_o            ( led1              ) );    // core and nvic sleeping
 
    assign mst_hready [0] = 1'b1; // Cortex M0 has no hreadyout
+   assign mst_hsel   [0] = 1'b1; // Cortex M0 has no hsel
 
 endmodule // cm0_softmc_top
