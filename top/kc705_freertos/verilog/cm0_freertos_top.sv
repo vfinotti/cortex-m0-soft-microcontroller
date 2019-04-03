@@ -202,7 +202,7 @@ module cm0_freertos_top (
      .HDATA_SIZE        ( 32               ),
      .TECHNOLOGY        ( "GENERIC"        ),
      .REGISTERED_OUTPUT ( "NO"             ),
-     .INIT_FILE         ( "../../../modules/memory/memory_blinky_freertos_sim.mem" ) )
+     .INIT_FILE         ( "../../../modules/memory/memory_freertos_blinky_sim.mem" ) )
    rom (
      .HRESETn           ( rst_n            ),
      .HCLK              ( clk_10mhz        ),
