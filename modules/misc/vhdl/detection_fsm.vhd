@@ -25,6 +25,8 @@ use ieee.numeric_std.all;
 
 entity detection_fsm is
 
+  generic (
+    g_min_cycles_to_toggle : integer := 100);
   port (
     clk_i      : in  std_logic;
     rst_i      : in  std_logic;
@@ -47,21 +49,21 @@ begin  -- architecture rtl
   -- outputs: detected_o
 
   detection : process (clk_i)
-    variable cycles_after_toggle : integer range 0 to 10;
+    variable cycles_after_toggle : integer range 0 to g_min_cycles_to_toggle;
   begin
     if rising_edge(clk_i) then          -- rising clock edge
       if rst_i = '1' then               -- synchronous reset (active high)
         present_state <= state_off;
         cycles_after_toggle := 0;
       else
-        if cycles_after_toggle < 10 then
+        if cycles_after_toggle < g_min_cycles_to_toggle then
           cycles_after_toggle := cycles_after_toggle + 1;
         end if;
 
         case present_state is
 
           when state_off =>
-            if data_i = x"f0f0f0f0" and cycles_after_toggle = 10 then
+            if data_i = x"f0f0f0f0" and cycles_after_toggle = g_min_cycles_to_toggle then
               present_state <= state_on;
               cycles_after_toggle := 0;
               detected_o    <= '1';
@@ -71,7 +73,7 @@ begin  -- architecture rtl
             end if;
 
           when state_on =>
-            if data_i = x"f0f0f0f0" and cycles_after_toggle = 10 then
+            if data_i = x"f0f0f0f0" and cycles_after_toggle = g_min_cycles_to_toggle then
               present_state <= state_off;
               cycles_after_toggle := 0;
               detected_o    <= '0';
