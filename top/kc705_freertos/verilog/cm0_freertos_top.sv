@@ -148,11 +148,11 @@ module cm0_freertos_top (
    assign led4 = rst_n;
    assign led5 = 1'b1;
    assign led6 = 1'b0;
-   assign led7 = irqa_o;
+   assign led7 = 1'b1;
    assign rst = !rst_n;
    assign push_button0_n = !push_button0_i;
 
-   assign irq_vector [31:1] = {31{1'b0}};
+   assign irq_vector [31:2] = {30{1'b0}};
 
 
    IBUFDS #(
@@ -472,7 +472,7 @@ module cm0_freertos_top (
      .dma_nd_i     ( 1'b0               ),
      .dma_ack_o    ( dma_ack_o          ),
      .dma_rest_i   ( 1'b0               ),
-     .irqa_o       ( irqa_o             ),
+     .irqa_o       ( irq_vector[1]      ),
      .irqb_o       ( irqb_o             ) );
 
 
